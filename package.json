@@ -37,7 +37,12 @@
         "open": "^7.3.0"
     },
     "scripts": {
-        "prepack": "rm -fr dist/ && webpack --mode production && rm dist/*.map"
+        "prepack": "rm -fr dist/ && npm run package-production && rm dist/*.map",
+        "package-development": "webpack --mode development",
+        "package-production": "webpack --mode production",
+        "rebuild": "node-gyp rebuild",
+        "start": "webpack-dev-server",
+        "clean": "rm -fr dist/ build/"
     },
     "bin": {
         "ratty": "./src/node/bin/main.js"
