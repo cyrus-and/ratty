@@ -36,5 +36,9 @@ export default class App extends React.Component {
 
     _handleSessionLoaded = (session) => {
         this.setState({session});
+
+        // set the window title
+        const {name} = this.state.session.getMeta();
+        window.document.title = `${name} - ${window.document.title}`;
     }
 }
