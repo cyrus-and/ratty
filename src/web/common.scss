@@ -1,0 +1,17 @@
+@import '~font-awesome/css/font-awesome.css';
+
+$accent-color: #ff6000;
+$backdrop-color: #808080;
+$background-color: #000000;
+$foreground-color: #ffffff;
+$terminal-border: 5px;
+$controls-spacing: 0.5em;
+$hover-transition-time: 250ms;
+$scrollbar-width: 4px;
+$shadow-radius: 50px;
+
+/* reusable snippets */
+
+@mixin shadow {
+    box-shadow: 0 0 $shadow-radius 0 rgba($background-color, 0.5);
+}

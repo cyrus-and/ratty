@@ -1,0 +1,18 @@
+@import 'common.scss';
+
+.progress {
+    transition: width 10ms, opacity 500ms;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 1px;
+    background: $accent-color;
+
+    &.visible {
+        opacity: 1;
+    }
+
+    &.hidden {
+        opacity: 0;
+    }
+}

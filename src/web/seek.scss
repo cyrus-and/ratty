@@ -1,0 +1,23 @@
+@import 'common.scss';
+
+.seek {
+    transition: border-color $hover-transition-time;
+    border: 1px solid $foreground-color;
+    cursor: pointer;
+    flex-grow: 1;
+
+    &:hover, &.active {
+        border-color: $accent-color;
+
+        div {
+            background: $accent-color;
+        }
+    }
+
+    div {
+        transition: width 100ms, background-color $hover-transition-time;
+        width: 0;
+        height: 100%;
+        background: $foreground-color;
+    }
+}

@@ -1,0 +1,18 @@
+@import 'common.scss';
+
+.controls {
+    display: flex;
+    padding: $controls-spacing;
+    background: $background-color;
+    color: $foreground-color;
+    min-width: 800px;
+    font-family: monospace;
+
+    & > * {
+        margin-right: $controls-spacing;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+}

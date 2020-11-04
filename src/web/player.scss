@@ -1,0 +1,12 @@
+@import 'common.scss';
+
+.player {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+
+    & > *:last-child {
+        flex-grow: 1;
+    }
+}

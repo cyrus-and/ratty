@@ -1,0 +1,28 @@
+@import 'common.scss';
+
+.help {
+    position: fixed;
+    z-index: 10; // needed to overlay Xterm.js
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    background: rgba($background-color, 0.9);
+    color: $foreground-color;
+
+    & > div {
+        position: relative;
+        margin: 0 auto;
+        width: 400px;
+
+        table {
+            margin: 0 auto;
+            border-spacing: 1em 0.25em;
+
+            td:first-child {
+                font-family: monospace;
+                color: $accent-color;
+                text-align: right;
+            }
+        }
+    }
+}

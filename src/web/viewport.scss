@@ -1,0 +1,25 @@
+@import 'common.scss';
+@import '~xterm/css/xterm.css';
+
+// avoid that the backdrop takes the full width
+.xterm-viewport {
+    display: none;
+}
+
+// avoid useless scroll
+.xterm-helpers {
+    overflow: hidden;
+}
+
+.viewport {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    overflow: auto;
+
+    & > div {
+        @include shadow;
+
+        border: $terminal-border solid $background-color;
+    }
+}

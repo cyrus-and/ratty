@@ -1,0 +1,46 @@
+@import 'common.scss';
+
+.loader {
+    display: table-cell;
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+    vertical-align: middle;
+
+    & > div {
+        @include shadow;
+
+        display: inline-block;
+        position: relative;
+        background: $background-color;
+        color: $foreground-color;
+
+        .trigger {
+            font-size: 4rem;
+            margin-top: 1rem;
+            margin-bottom: 3rem;
+
+            &.active {
+                color: $accent-color;
+            }
+        }
+
+        .error {
+            position: absolute;
+            width: 100%;
+            padding: 1rem 0;
+            color: $background-color;
+            background: $foreground-color;
+            border-bottom-left-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+
+            i {
+                margin-right: 0.5em;
+            }
+        }
+    }
+
+    input {
+        display: none;
+    }
+}

@@ -1,0 +1,33 @@
+@import 'common.scss';
+
+::-webkit-scrollbar {
+    width: $scrollbar-width;
+    height: $scrollbar-width;
+}
+
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner {
+    background: $background-color;
+}
+
+::-webkit-scrollbar-thumb {
+    background: $accent-color;
+}
+
+body {
+    color: $foreground-color;
+    background: $backdrop-color;
+    font-family: sans-serif;
+    margin: 0;
+}
+
+a {
+    transition: color $hover-transition-time;
+
+    &:link, &:visited {
+        color: $foreground-color;
+    }
+
+    &:hover {
+        color: $accent-color;
+    }
+}

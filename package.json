@@ -1,0 +1,49 @@
+{
+    "name": "ratty",
+    "version": "0.0.0",
+    "description": "Record and replay terminal sessions.",
+    "author": "Andrea Cardaci <cyrus.and@gmail.com>",
+    "repository": "https://github.com/cyrus-and/ratty",
+    "license": "MIT",
+    "devDependencies": {
+        "@babel/core": "^7.12.3",
+        "@babel/plugin-proposal-class-properties": "^7.12.1",
+        "@babel/plugin-transform-runtime": "^7.12.1",
+        "@babel/preset-env": "^7.12.1",
+        "@babel/preset-react": "^7.12.1",
+        "babel-loader": "^8.1.0",
+        "css-loader": "^4.3.0",
+        "file-loader": "^6.1.1",
+        "font-awesome": "^4.7.0",
+        "html-webpack-partials-plugin": "^0.7.0",
+        "html-webpack-plugin": "^4.4.1",
+        "node-sass": "^4.14.1",
+        "react": "^17.0.1",
+        "react-dom": "^17.0.1",
+        "sass": "^1.26.12",
+        "sass-loader": "^10.0.2",
+        "source-map-loader": "^1.1.0",
+        "style-loader": "^1.2.1",
+        "webpack": "^4.44.2",
+        "webpack-cli": "^3.3.12",
+        "webpack-dev-server": "^3.11.0",
+        "xterm": "^4.9.0",
+        "xterm-addon-serialize": "^0.4.0"
+    },
+    "dependencies": {
+        "chalk": "^4.1.0",
+        "commander": "^6.1.0",
+        "node-pty": "^0.9.0",
+        "open": "^7.3.0"
+    },
+    "scripts": {
+        "prepack": "rm -fr dist/ && webpack --mode production && rm dist/*.map"
+    },
+    "bin": {
+        "ratty": "./src/node/bin/main.js"
+    },
+    "files": [
+        "/dist/",
+        "/src/node/"
+    ]
+}

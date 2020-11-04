@@ -1,0 +1,19 @@
+@import 'common.scss';
+
+.button {
+    transition: color $hover-transition-time;
+    background: $background-color;
+    color: $foreground-color;
+    border: none;
+    outline: none;
+    padding: 0;
+    cursor: pointer;
+    // allow to adapt to the parent context
+    color: inherit;
+    font-size: inherit;
+    font-family: inherit;
+
+    &:hover {
+        color: $accent-color;
+    }
+}
