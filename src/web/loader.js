@@ -81,24 +81,31 @@ export default class Loader extends React.Component {
             return;
         }
 
-        // read the file and start loading the session
-        const data = await this._readFile(file);
-        const name = file.name.replace(/\.[^.]+$/, '');
-        const session = new Session(name, data);
-
-        // pass the session upward as soon as at least one frame is loaded
-        session.once('frame', () => {
-            this.props.onSessionLoaded(session);
-        });
-
-        // handle session parsing errors
-        session.once('error', (error) => {
+        // common error handling
+        const handleError = (error) => {
             console.error(error);
             this.setState({
                 error,
                 drag: false
             });
-        });
+        };
+
+        try {
+            // read the file and start loading the session
+            const data = await this._readFile(file);
+            const name = file.name.replace(/\.[^.]+$/, '');
+            const session = new Session(name, data);
+
+            // pass the session upward as soon as at least one frame is loaded
+            session.once('frame', () => {
+                this.props.onSessionLoaded(session);
+            });
+
+            // handle session parsing errors
+            session.once('error', handleError);
+        } catch (error) {
+            handleError(error);
+        }
     }
 
     _readFile(file) {
@@ -109,8 +116,8 @@ export default class Loader extends React.Component {
                 fulfill(reader.result);
             });
 
-            reader.addEventListener('error', (err) => {
-                reject(err);
+            reader.addEventListener('error', () => {
+                reject(reader.error);
             });
 
             reader.readAsText(file);
