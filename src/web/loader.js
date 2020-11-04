@@ -82,7 +82,7 @@ export default class Loader extends React.Component {
         }
 
         // read the file and start loading the session
-        const data = await file.text();
+        const data = await this._readFile(file);
         const name = file.name.replace(/\.[^.]+$/, '');
         const session = new Session(name, data);
 
@@ -98,6 +98,22 @@ export default class Loader extends React.Component {
                 error,
                 drag: false
             });
+        });
+    }
+
+    _readFile(file) {
+        return new Promise((fulfill, reject) => {
+            const reader = new FileReader();
+
+            reader.addEventListener('load', () => {
+                fulfill(reader.result);
+            });
+
+            reader.addEventListener('error', (err) => {
+                reject(err);
+            });
+
+            reader.readAsText(file);
         });
     }
 }
