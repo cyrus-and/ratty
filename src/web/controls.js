@@ -33,7 +33,8 @@ export default class Controls extends React.Component {
         const {player} = this.props;
 
         // decide the playing icon
-        const playingStatusIcon = this.props.cursor === this.state.totalFrames - 1
+        const playingStatusIcon =
+            this.state.totalFrames > 1 && this.props.cursor === this.state.totalFrames - 1
             ? 'fa-repeat'
             : (this.props.playing ? 'fa-pause' : 'fa-play');
 
