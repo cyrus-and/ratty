@@ -58,8 +58,12 @@ function record(argv, options, callback) {
 
     // process data coming from stdin
     process.stdin.on('data', (chunk) => {
-        // store the chunk in the buffer and hand it to the PTY process
-        input += chunk;
+        if (options.stdin) {
+            // store the chunk in the buffer if requested
+            input += chunk;
+        }
+
+        // hand the chunk to the PTY process
         ptyProcess.write(chunk);
     });
 

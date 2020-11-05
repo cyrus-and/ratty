@@ -15,6 +15,7 @@ program
     .description('Record a terminal session to file.')
     .option('-o, --output <file>', 'Session file', `session-${new Date().toISOString()}.${package.name}`)
     .option('-t, --interval <ms>', 'Minimum interval between frames', 100)
+    .option('-S, --no-stdin', 'Do not record standard input')
     .action((argv, options) => {
         const record = require('../lib/record');
 
