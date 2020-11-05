@@ -46,15 +46,15 @@ function record(argv, options, callback) {
     // write the header
     emitEvent(['start', new Date().toISOString(), argv]);
 
-    // set the terminal raw mode
-    tty.enterRawMode();
-
     // run the command
     const ptyProcess = pty.spawn(argv[0], argv.slice(1));
 
     // handle the terminal resize and syntetically trigger the first time
     process.stdout.on('resize', resize);
     resize();
+
+    // set the terminal raw mode
+    tty.enterRawMode();
 
     // process data coming from stdin
     process.stdin.on('data', (chunk) => {
