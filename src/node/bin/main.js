@@ -47,7 +47,7 @@ program
     .description('Start the web player.')
     .option('--host <host>', 'Start the server on <host>', 'localhost')
     .option('--port <port>', 'Start the server on <port> instead of random', 0)
-    .option('-n, --no-open', 'Do not open the URL automatically')
+    .option('-O, --no-open', 'Do not open the URL automatically')
     .action((options) => {
         const open = require('open');
         const player = require('../lib/player');
