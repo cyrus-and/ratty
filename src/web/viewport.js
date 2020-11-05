@@ -12,7 +12,8 @@ export default class Viewport extends React.Component {
     componentDidMount() {
         // create and set up the terminal
         this.terminal = new Terminal({
-            fontSize: this.props.fontSize
+            fontSize: this.props.fontSize,
+            scrollback: 0
         });
         this.terminal.attachCustomKeyEventHandler(() => false);
 
