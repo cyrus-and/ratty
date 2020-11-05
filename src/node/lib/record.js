@@ -2,7 +2,7 @@ const fs = require('fs');
 const pty = require('node-pty');
 const tty = require('../../../build/Release/tty.node');
 
-function record(argv, sessionPath, interval, callback) {
+function record(argv, options, callback) {
     function emitEvent(event) {
         // writes one JSON object (event) per line
         fs.writeSync(session, JSON.stringify(event) + '\n');
@@ -41,7 +41,7 @@ function record(argv, sessionPath, interval, callback) {
     let output = '';
 
     // open the session file
-    const session = fs.openSync(sessionPath, 'w', 0o600);
+    const session = fs.openSync(options.output, 'w', 0o600);
 
     // write the header
     emitEvent(['start', new Date().toISOString(), argv]);
@@ -75,7 +75,7 @@ function record(argv, sessionPath, interval, callback) {
 
         // if the time passed since the last flush is enough
         const delta = now - timestamp;
-        if (delta > interval) {
+        if (delta > options.interval) {
             // flush again then update the timestamp for the current frame
             flush();
             timestamp = now;

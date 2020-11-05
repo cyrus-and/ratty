@@ -29,7 +29,7 @@ program
             log.info(`Saving session to '${options.output}'`);
 
             // run the program and start recording
-            record(argv, options.output, options.interval, (status, signal) => {
+            record(argv, options, (status, signal) => {
                 let message = `Program exited with status ${status}`;
                 if (signal) {
                     message += ` (killed by signal ${signal})`;
