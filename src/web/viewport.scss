@@ -11,6 +11,11 @@
     overflow: hidden;
 }
 
+// XXX hackish workaround for https://github.com/xtermjs/xterm.js/issues/1974
+.xterm .xterm-screen canvas {
+    border: 1px solid $background-color;
+}
+
 .viewport {
     display: grid;
     justify-items: center;
