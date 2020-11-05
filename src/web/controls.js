@@ -30,17 +30,17 @@ export default class Controls extends React.Component {
     }
 
     render() {
-        const {player} = this.props;
+        const {cursor, player, session} = this.props;
+        const {totalFrames, progress} = this.state;
 
         // decide the playing icon
-        const playingStatusIcon =
-            this.state.totalFrames > 1 && this.props.cursor === this.state.totalFrames - 1
+        const playingStatusIcon = totalFrames > 1 && cursor === totalFrames - 1
             ? 'fa-repeat'
             : (this.props.playing ? 'fa-pause' : 'fa-play');
 
         return (
             <div className="controls">
-                <Progress ratio={this.state.progress} />
+                <Progress ratio={progress} />
                 <Button
                     icon={playingStatusIcon}
                     onClick={player._changePlayingStatus} />
@@ -56,12 +56,12 @@ export default class Controls extends React.Component {
                 <Button
                     icon="fa-fast-forward"
                     onClick={player._seekToEnd} />
-                <Timestamp frame={this.props.session.getFrames()[this.props.cursor]} />
+                <Timestamp frame={session.getFrames()[cursor]} />
                 <Seek
-                    cursor={this.props.cursor}
-                    totalFrames={this.state.totalFrames}
+                    cursor={cursor}
+                    totalFrames={totalFrames}
                     onSeek={player._seek} />
-                <Timestamp frame={this.props.session.getFrames()[this.state.totalFrames - 1]} />
+                <Timestamp frame={session.getFrames()[totalFrames - 1]} />
                 <Cycle
                     onChange={player._setMaxDelay} />
                 <Button
