@@ -42,35 +42,40 @@ export default class Session extends EventEmitter {
         let rows;
         let columns;
         for (const [index, event] of events.entries()) {
-            switch (event.type) {
+            const type = event[0];
+            const args = event.slice(1);
+            switch (type) {
                 case 'start':
-                    this._meta.start = event.timestamp;
-                    this._meta.command = event.command;
+                    [this._meta.start, this._meta.command] = args;
+
                     this.emit('start');
                     break;
 
                 case 'finish':
-                    this._meta.finish = event.timestamp;
+                    [this._meta.finish] = args;
+
                     this.emit('finish');
                     break;
 
                 case 'frame':
+                    const [cumulativeDelay, input, output] = args;
+
                     // compute the time difference to obtain the frame delay
-                    const delay = event.delay - (lastDelay || 0);
+                    const delay = cumulativeDelay - (lastDelay || 0);
 
                     // write the record data to the terminal and read back the buffer
-                    await new Promise((fulfill) => terminal.write(event.output, fulfill));
+                    await new Promise((fulfill) => terminal.write(output, fulfill));
                     const buffer = serializeAddon.serialize();
 
                     // update the last delay
-                    lastDelay = event.delay;
+                    lastDelay = cumulativeDelay;
 
                     // add a new frame
                     const frame = {
-                        cumulativeDelay: event.delay,
+                        cumulativeDelay,
                         delay,
                         output: buffer,
-                        input: event.input,
+                        input,
                         rows, columns
                     };
                     this._frames.push(frame);
@@ -80,8 +85,10 @@ export default class Session extends EventEmitter {
                     break;
 
                 case 'resize':
+                    [columns, rows] = args;
+
                     // update the terminal size
-                    terminal.resize(columns = event.columns, rows = event.rows);
+                    terminal.resize(columns, rows);
                     break;
             }
 

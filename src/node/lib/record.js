@@ -18,27 +18,20 @@ function record(argv, sessionPath, interval, callback) {
         delay = timestamp - epoch;
 
         // save the JSON representation of the record (one per line)
-        emitEvent({
-            type: 'frame',
-            delay,
-            input,
-            output
-        });
+        emitEvent(['frame', delay, input, output]);
 
         // continue with empty buffers
         input = output = '';
     }
 
     function resize() {
+        const {columns, rows} = process.stdout;
+
         // resize the terminal
-        ptyProcess.resize(process.stdout.columns, process.stdout.rows);
+        ptyProcess.resize(columns, rows);
 
         // emit the resize event
-        emitEvent({
-            type: 'resize',
-            rows: process.stdout.rows,
-            columns: process.stdout.columns
-        });
+        emitEvent(['resize', columns, rows]);
     }
 
     // reset state
@@ -51,11 +44,7 @@ function record(argv, sessionPath, interval, callback) {
     const session = fs.openSync(sessionPath, 'w', 0o600);
 
     // write the header
-    emitEvent({
-        type: 'start',
-        timestamp: new Date().toISOString(),
-        argv
-    });
+    emitEvent(['start', new Date().toISOString(), argv]);
 
     // set the terminal raw mode
     tty.enterRawMode();
@@ -103,10 +92,7 @@ function record(argv, sessionPath, interval, callback) {
         flush();
 
         // write the footer
-        emitEvent({
-            type: 'finish',
-            timestamp: new Date().toISOString()
-        });
+        emitEvent(['finish', new Date().toISOString()]);
 
         // finish the session
         fs.closeSync(session);
