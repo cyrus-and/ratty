@@ -88,6 +88,9 @@ export default class Loader extends React.Component {
                 error,
                 drag: false
             });
+
+            // allow to select the same file again on error
+            this.fileInput.current.value = '';
         };
 
         try {
