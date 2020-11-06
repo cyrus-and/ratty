@@ -41,7 +41,7 @@
         "package-development": "webpack --mode development",
         "package-production": "webpack --mode production",
         "rebuild": "node-gyp rebuild",
-        "start": "webpack-dev-server",
+        "start": "webpack-dev-server --define __webpackDevServer",
         "clean": "rm -fr dist/ build/"
     },
     "bin": {

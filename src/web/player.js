@@ -32,6 +32,23 @@ export default class Player extends React.Component {
         });
     }
 
+    componentDidMount() {
+        window.addEventListener('beforeunload', this.handleNavigationConfirmation);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('beforeunload', this.handleNavigationConfirmation);
+    }
+
+    handleNavigationConfirmation(event) {
+        // setting this propery to whatever value forces the browser to show a
+        // confirmation dialog when the user navigates away from or reload the
+        // page
+        if (typeof __webpackDevServer === 'undefined') { // XXX this is defined in the command line
+            event.returnValue = true;
+        }
+    }
+
     render() {
         return (
             <div className="player">
