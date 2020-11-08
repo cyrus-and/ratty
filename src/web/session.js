@@ -33,7 +33,9 @@ export default class Session extends EventEmitter {
         this.emit('progress', 0);
 
         // create the headless terminal and serializer addons
-        const terminal = new Terminal();
+        const terminal = new Terminal({
+            scrollback: 0
+        });
         const serializeAddon = new SerializeAddon();
         terminal.loadAddon(serializeAddon);
 
