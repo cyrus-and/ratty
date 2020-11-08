@@ -29,6 +29,8 @@ export default class Session extends EventEmitter {
     }
 
     async _startLoading(events) {
+        console.time('loading');
+
         // notify the progress
         this.emit('progress', 0);
 
@@ -97,5 +99,7 @@ export default class Session extends EventEmitter {
             // notify the progress
             this.emit('progress', (index + 1) / events.length);
         }
+
+        console.timeEnd('loading');
     }
 }
