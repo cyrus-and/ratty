@@ -50,7 +50,7 @@ export default class Viewport extends React.Component {
             // content and writes the frame atomically
             const frame = this.props.session.getFrames()[this.props.cursor];
             this.terminal.resize(frame.columns, frame.rows);
-            this.terminal.write(`\x1bc${frame.output}`);
+            this.terminal.write(`\x1bc${frame.outputAnsi}`);
 
             // update the font size
             this.terminal.setOption('fontSize', this.props.fontSize);

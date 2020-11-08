@@ -69,7 +69,14 @@ export default class Session extends EventEmitter {
 
                     // write the record data to the terminal and read back the buffer
                     await new Promise((fulfill) => terminal.write(output, fulfill));
-                    const buffer = serializeAddon.serialize();
+                    const outputAnsi = serializeAddon.serialize();
+
+                    // fetch the current frame content as plain text
+                    let outputText = '';
+                    const buffer = terminal.buffer.active;
+                    for (let i = 0; i < buffer.length; i++) {
+                        outputText += buffer.getLine(i).translateToString();
+                    }
 
                     // update the last delay
                     lastDelay = cumulativeDelay;
@@ -78,8 +85,9 @@ export default class Session extends EventEmitter {
                     const frame = {
                         cumulativeDelay,
                         delay,
-                        output: buffer,
                         input,
+                        outputAnsi,
+                        outputText,
                         rows, columns
                     };
                     this._frames.push(frame);
