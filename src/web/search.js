@@ -25,7 +25,8 @@ export default class Search extends React.Component {
                 <input
                     id="searchBox"
                     placeholder="Search..."
-                    onChange={this._handleChange} />
+                    onChange={this._handleChange}
+                    onKeyDown={this._handleKeyDown} />
                 {matches.length > 0 && navigation}
             </div>
         );
@@ -34,6 +35,22 @@ export default class Search extends React.Component {
     _handleChange = (event) => {
         const searchQuery = event.target.value;
         this.props.player._doSearch(searchQuery);
+    }
+
+    _handleKeyDown = (event) => {
+        switch (event.key) {
+            case 'Enter':
+                if (event.getModifierState("Shift")) {
+                    this._findPrevious();
+                } else {
+                    this._findNext();
+                }
+                break;
+
+            case 'Escape':
+                event.target.blur();
+                break;
+        }
     }
 
     _findPrevious = () => {
