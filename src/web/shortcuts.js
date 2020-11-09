@@ -25,6 +25,12 @@ export default class Shortcuts {
     }
 
     _handler = (event) => {
+        // skip the case where an input is focused
+        if (event.target.tagName === 'INPUT') {
+            return;
+        }
+
+        // execute the associated handler, if any
         const shortcut = this.mapping[event.key];
         if (shortcut) {
             event.preventDefault();
