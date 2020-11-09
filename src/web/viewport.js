@@ -57,6 +57,7 @@ export default class Viewport extends React.Component {
 
             // perform the highlighting
             if (this.props.searchQuery) {
+                let highlightings = '';
                 for (const match of frame.outputText.matchAll(this.props.searchQuery)) {
                     // extract match coordinates
                     const row = Math.floor(match.index / frame.columns) + 1;
@@ -66,8 +67,9 @@ export default class Viewport extends React.Component {
                     // replace the original text with the highlighting
                     const move = `\x1b[${row};${column}H`;
                     const highlight = `\x1b[48;5;202m\x1b[30m${match}\x1b[0m`; // XXX quasi accent color on black
-                    this.terminal.write(`${move}${highlight}`);
+                    highlightings += `${move}${highlight}`;
                 }
+                this.terminal.write(highlightings);
             }
         }
     }
