@@ -3,6 +3,8 @@
 .seek {
     transition: border-color $hover-transition-time;
     border: 1px solid $foreground-color;
+    height: 100%;
+    box-sizing: border-box;
     cursor: pointer;
     flex-grow: 1;
 

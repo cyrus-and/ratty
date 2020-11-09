@@ -6,15 +6,24 @@
     border: 1px solid $foreground-color;
 
     input {
-        transition: width 500ms;
+        transition: width 250ms;
         background: $background-color;
         color: $foreground-color;
+        text-align: center;
         width: 5em;
         border: none;
         outline: none;
 
         &:focus {
-            width: 20em;
+            width: 15em;
         }
+
+        &::placeholder {
+            color: $foreground-color;
+        }
+    }
+
+    div {
+        white-space: nowrap;
     }
 }

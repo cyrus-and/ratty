@@ -22,9 +22,9 @@ export default class Search extends React.Component {
 
         return (
             <div className="search">
-                <label htmlFor="searchBox"><i className="fa fa-search" /></label>
                 <input
                     id="searchBox"
+                    placeholder="Search..."
                     onChange={this._handleChange} />
                 {matches.length > 0 && navigation}
             </div>

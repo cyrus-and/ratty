@@ -70,13 +70,13 @@ export default class Controls extends React.Component {
                     cursor={cursor}
                     matches={matches} />
                 <Button
-                    icon="fa-minus"
+                    icon="fa-search-minus"
                     onClick={player._decreaseFontSize} />
                 <Button
-                    icon="fa-plus"
+                    icon="fa-search-plus"
                     onClick={player._increaseFontSize} />
                 <Button
-                    icon="fa-question"
+                    icon="fa-question-circle"
                     onClick={player._toggleHelp} />
             </div>
         );

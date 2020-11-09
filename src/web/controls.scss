@@ -2,6 +2,7 @@
 
 .controls {
     display: flex;
+    align-items: center;
     padding: $controls-spacing;
     background: $background-color;
     color: $foreground-color;
