@@ -45,6 +45,7 @@ export default class Controls extends React.Component {
                 <Button
                     icon={playingStatusIcon}
                     onClick={player._changePlayingStatus} />
+                <Cycle onChange={player._setMaxDelay} />
                 <Button
                     icon="fa-fast-backward"
                     onClick={player._seekToBegin} />
@@ -63,8 +64,6 @@ export default class Controls extends React.Component {
                     totalFrames={totalFrames}
                     onSeek={player._seek} />
                 <Timestamp frame={session.getFrames()[totalFrames - 1]} />
-                <Cycle
-                    onChange={player._setMaxDelay} />
                 <Search
                     player={player}
                     cursor={cursor}
