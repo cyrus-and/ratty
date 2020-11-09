@@ -54,6 +54,21 @@ export default class Viewport extends React.Component {
 
             // update the font size
             this.terminal.setOption('fontSize', this.props.fontSize);
+
+            // perform the highlighting
+            if (this.props.searchQuery) {
+                for (const match of frame.outputText.matchAll(this.props.searchQuery)) {
+                    // extract match coordinates
+                    const row = Math.floor(match.index / frame.columns) + 1;
+                    const column = match.index % frame.columns + 1;
+                    const string = match[0];
+
+                    // replace the original text with the highlighting
+                    const move = `\x1b[${row};${column}H`;
+                    const highlight = `\x1b[48;5;202m\x1b[30m${match}\x1b[0m`; // XXX quasi accent color on black
+                    this.terminal.write(`${move}${highlight}`);
+                }
+            }
         }
     }
 }

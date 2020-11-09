@@ -1,6 +1,7 @@
 import Button from './button';
 import Cycle from './cycle';
 import Progress from './progress';
+import Search from './search';
 import React from 'react';
 import Seek from './seek';
 import Timestamp from './timestamp';
@@ -30,7 +31,7 @@ export default class Controls extends React.Component {
     }
 
     render() {
-        const {cursor, player, session} = this.props;
+        const {cursor, player, matches, session} = this.props;
         const {totalFrames, progress} = this.state;
 
         // decide the playing icon
@@ -64,6 +65,10 @@ export default class Controls extends React.Component {
                 <Timestamp frame={session.getFrames()[totalFrames - 1]} />
                 <Cycle
                     onChange={player._setMaxDelay} />
+                <Search
+                    player={player}
+                    cursor={cursor}
+                    matches={matches} />
                 <Button
                     icon="fa-minus"
                     onClick={player._decreaseFontSize} />

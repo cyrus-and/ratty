@@ -15,6 +15,8 @@ export default class Player extends React.Component {
         this.state = {
             fontSize: BASE_FONT_SIZE,
             cursor: 0,
+            searchQuery: '',
+            matches: [],
             playing: false,
             showHelp: false
         };
@@ -28,7 +30,12 @@ export default class Player extends React.Component {
             'G': ['Jump to the last frame', this._seekToEnd],
             '-': ['Decrease font size', this._decreaseFontSize],
             '+': ['Increase font size', this._increaseFontSize],
-            ' ': ['Play/pause', this._changePlayingStatus]
+            ' ': ['Play/pause', this._changePlayingStatus],
+            // XXX this is not React idiomatic but since we are forced to use
+            // an id due to lack of support for labels...
+            '/': ['Focus the search box', () => window.document.getElementById('searchBox').focus()],
+            'N': ['Jump to the previous matching frame', this._findPrevious],
+            'n': ['Jump to the next matching frame', this._findNext]
         });
     }
 
@@ -56,11 +63,13 @@ export default class Player extends React.Component {
                 <Controls
                     session={this.props.session}
                     cursor={this.state.cursor}
+                    matches={this.state.matches}
                     playing={this.state.playing}
                     player={this} />
                 <Viewport
                     session={this.props.session}
                     fontSize={this.state.fontSize}
+                    searchQuery={this.state.searchQuery}
                     cursor={this.state.cursor} />
             </div>
         );
@@ -119,6 +128,44 @@ export default class Player extends React.Component {
         // stop by clearing the current timout if any
         window.clearTimeout(this.timeout);
         this.setState({playing: false});
+    }
+
+    _getFramesMatching(searchQuery) {
+        const matches = [];
+
+        // an empty search query means no search query
+        if (!searchQuery) {
+            return matches;
+        }
+
+        // return the frames matching the query
+        const regexp = new RegExp(searchQuery);
+        for (const [index, frame] of this.props.session.getFrames().entries()) {
+            if (regexp.test(frame.outputText)) {
+                matches.push(index);
+            }
+        }
+        return matches;
+    }
+
+    _jumpToMatch(forward) {
+        const {cursor, matches} = this.state;
+
+        // find the previous or the next matching frame
+        let i;
+        if (forward) {
+            for (i = 0; i < matches.length && matches[i] <= cursor; i++);
+        } else {
+            for (i = matches.length - 1; i >= 0 && matches[i] >= cursor; i--);
+        }
+
+        // if no (more) matches
+        if (i === -1 || i === matches.length) {
+            return;
+        }
+
+        // jump to match
+        this.setState({cursor: matches[i]});
     }
 
     _toggleHelp = () => {
@@ -181,5 +228,20 @@ export default class Player extends React.Component {
 
     _increaseFontSize = () => {
         this._adjustFontSize(+1);
+    }
+
+    _doSearch = (searchQuery) => {
+        this.setState({
+            searchQuery,
+            matches: this._getFramesMatching(searchQuery)
+        });
+    }
+
+    _findPrevious = () => {
+        this._jumpToMatch(false);
+    }
+
+    _findNext = () => {
+        this._jumpToMatch(true);
     }
 }
