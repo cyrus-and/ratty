@@ -3,24 +3,29 @@
 .search {
     display: flex;
     align-items: center;
+    width: 12em;
     border: 1px solid $foreground-color;
     border-radius: 1em;
 
     input {
+        flex-grow: 1;
         background: none;
         color: $foreground-color;
-        text-align: center;
-        width: 10em;
+        padding-left: 0.4em;
+        width: 100%;
         border: none;
         outline: none;
 
         &:focus {
-            &, &::placeholder {
-                color: $accent-color;
+            color: $accent-color;
+
+            &::placeholder {
+                color: transparent;
             }
         }
 
         &::placeholder {
+            text-align: center;
             color: $foreground-color;
         }
     }
