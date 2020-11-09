@@ -4,18 +4,20 @@
     display: flex;
     align-items: center;
     border: 1px solid $foreground-color;
+    border-radius: 1em;
 
     input {
-        transition: width 250ms;
-        background: $background-color;
+        background: none;
         color: $foreground-color;
         text-align: center;
-        width: 5em;
+        width: 10em;
         border: none;
         outline: none;
 
         &:focus {
-            width: 15em;
+            &, &::placeholder {
+                color: $accent-color;
+            }
         }
 
         &::placeholder {
@@ -24,6 +26,8 @@
     }
 
     div {
+        display: flex;
+        align-items: center;
         white-space: nowrap;
     }
 }

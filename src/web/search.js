@@ -11,11 +11,11 @@ export default class Search extends React.Component {
         const navigation = (
             <div>
                 <Button
-                    icon="fa-arrow-circle-left"
+                    icon="fa-caret-left"
                     onClick={this._findPrevious} />
                 <span>{index === -1 ? '?' : index + 1}/{matches.length}</span>
                 <Button
-                    icon="fa-arrow-circle-right"
+                    icon="fa-caret-right"
                     onClick={this._findNext} />
             </div>
         );
