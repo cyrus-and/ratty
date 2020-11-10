@@ -4,6 +4,20 @@ import React from 'react';
 import './search.scss';
 
 export default class Search extends React.Component {
+    constructor(props) {
+        super(props)
+        this.searchBox = React.createRef();
+    }
+
+    componentDidMount() {
+        window.shortcuts.bind({
+            '/': ['Focus the search box', () => {
+                searchBox.focus();
+                searchBox.select();
+            }]
+        });
+    }
+
     render() {
         const {cursor, matches} = this.props;
         const index = matches.indexOf(cursor);
@@ -11,10 +25,18 @@ export default class Search extends React.Component {
         const navigation = (
             <div>
                 <Button
+                    shortcut={{
+                        trigger: 'N',
+                        description: 'Jump to the previous matching frame'
+                    }}
                     icon="fa-caret-left"
                     onClick={this._findPrevious} />
                 <span>{index === -1 ? '?' : index + 1}/{matches.length}</span>
                 <Button
+                    shortcut={{
+                        trigger: 'n',
+                        description: 'Jump to the next matching frame'
+                    }}
                     icon="fa-caret-right"
                     onClick={this._findNext} />
             </div>

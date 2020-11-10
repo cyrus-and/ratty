@@ -21,25 +21,6 @@ export default class Player extends React.Component {
             showHelp: false
         };
         this.maxDelay = Infinity;
-        window.shortcuts.bind({
-            // order apparently matters for key strings so keep this entry first
-            'Escape': ['Toggle this help screen', this._toggleHelp],
-            ',': ['Step one frame backward', this._stepBackward],
-            '.': ['Step one frame forward', this._stepForward],
-            'g': ['Jump to the first frame', this._seekToBegin],
-            'G': ['Jump to the last frame', this._seekToEnd],
-            '-': ['Decrease font size', this._decreaseFontSize],
-            '+': ['Increase font size', this._increaseFontSize],
-            ' ': ['Play/pause the animation', this._changePlayingStatus],
-            'N': ['Jump to the previous matching frame', this._findPrevious],
-            'n': ['Jump to the next matching frame', this._findNext],
-            // XXX this is not React idiomatic...
-            '/': ['Focus the search box', () => {
-                const searchBox = window.document.getElementById('searchBox');
-                searchBox.focus();
-                searchBox.select();
-            }]
-        });
     }
 
     componentDidMount() {

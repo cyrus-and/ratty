@@ -43,6 +43,10 @@ export default class Controls extends React.Component {
             <div className="controls">
                 <Progress ratio={progress} />
                 <Button
+                    shortcut={{
+                        trigger: ' ',
+                        description: 'Play/pause the animation'
+                    }}
                     icon={playingStatusIcon}
                     onClick={player._changePlayingStatus} />
                 <Cycle
@@ -58,15 +62,31 @@ export default class Controls extends React.Component {
                     ]}
                     onChange={player._setMaxDelay} />
                 <Button
+                    shortcut={{
+                        trigger: 'g',
+                        description: 'Jump to the first frame'
+                    }}
                     icon="fa-fast-backward"
                     onClick={player._seekToBegin} />
                 <Button
+                    shortcut={{
+                        trigger: ',',
+                        description: 'Step one frame backward'
+                    }}
                     icon="fa-step-backward"
                     onClick={player._stepBackward} />
                 <Button
+                    shortcut={{
+                        trigger: '.',
+                        description: 'Step one frame forward'
+                    }}
                     icon="fa-step-forward"
                     onClick={player._stepForward} />
                 <Button
+                    shortcut={{
+                        trigger: 'G',
+                        description: 'Jump to the last frame'
+                    }}
                     icon="fa-fast-forward"
                     onClick={player._seekToEnd} />
                 <Timestamp
@@ -82,12 +102,24 @@ export default class Controls extends React.Component {
                     cursor={cursor}
                     matches={matches} />
                 <Button
+                    shortcut={{
+                        trigger: '-',
+                        description: 'Decrease font size'
+                    }}
                     icon="fa-search-minus"
                     onClick={player._decreaseFontSize} />
                 <Button
+                    shortcut={{
+                        trigger: '+',
+                        description: 'Increase font size'
+                    }}
                     icon="fa-search-plus"
                     onClick={player._increaseFontSize} />
                 <Button
+                    shortcut={{
+                        trigger: 'Escape',
+                        description: 'Toggle this help screen'
+                    }}
                     icon="fa-question-circle"
                     onClick={player._toggleHelp} />
             </div>
