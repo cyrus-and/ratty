@@ -45,7 +45,18 @@ export default class Controls extends React.Component {
                 <Button
                     icon={playingStatusIcon}
                     onClick={player._changePlayingStatus} />
-                <Cycle onChange={player._setMaxDelay} />
+                <Cycle
+                    shortcut={{
+                        trigger: 't',
+                        description: 'Cycle max frame duration'
+                    }}
+                    choices={[
+                        {label: 'REAL', value: Infinity},
+                        {label: 'SLOW', value: 1000},
+                        {label: 'FAIR', value: 500},
+                        {label: 'FAST', value: 100}
+                    ]}
+                    onChange={player._setMaxDelay} />
                 <Button
                     icon="fa-fast-backward"
                     onClick={player._seekToBegin} />
