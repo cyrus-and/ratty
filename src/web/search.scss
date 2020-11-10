@@ -19,12 +19,8 @@
         // allow to adapt to the parent context
         font-family: inherit;
 
-        &:focus {
-            color: $accent-color;
-
-            &::placeholder {
-                color: transparent;
-            }
+        &:focus::placeholder {
+            color: transparent;
         }
 
         &::placeholder {
