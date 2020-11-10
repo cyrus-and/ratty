@@ -41,6 +41,13 @@ export default class Player extends React.Component {
 
     componentDidMount() {
         window.addEventListener('beforeunload', this.handleNavigationConfirmation);
+
+        // repeat the current search when finished loading
+        this.props.session.on('progress', (progress) => {
+            if (progress === 1.0) {
+                this._doSearch(this.state.searchQuery);
+            }
+        });
     }
 
     componentWillUnmount() {
