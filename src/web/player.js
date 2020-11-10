@@ -174,7 +174,8 @@ export default class Player extends React.Component {
             return;
         }
 
-        // jump to match
+        // stop then jump to match
+        this._stop();
         this.setState({cursor: matches[i]});
     }
 
