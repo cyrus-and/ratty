@@ -24,13 +24,13 @@ export default class Player extends React.Component {
         window.shortcuts.bind({
             // order apparently matters for key strings so keep this entry first
             'Escape': ['Toggle this help screen', this._toggleHelp],
-            ',': ['Step backward', this._stepBackward],
-            '.': ['Step forward', this._stepForward],
+            ',': ['Step one frame backward', this._stepBackward],
+            '.': ['Step one frame forward', this._stepForward],
             'g': ['Jump to the first frame', this._seekToBegin],
             'G': ['Jump to the last frame', this._seekToEnd],
             '-': ['Decrease font size', this._decreaseFontSize],
             '+': ['Increase font size', this._increaseFontSize],
-            ' ': ['Play/pause', this._changePlayingStatus],
+            ' ': ['Play/pause the animation', this._changePlayingStatus],
             // XXX this is not React idiomatic but since we are forced to use
             // an id due to lack of support for labels...
             '/': ['Focus the search box', () => window.document.getElementById('searchBox').focus()],
