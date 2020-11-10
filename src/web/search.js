@@ -28,26 +28,6 @@ export default class Search extends React.Component {
         const {cursor, matches} = this.props;
         const index = matches.indexOf(cursor);
 
-        const navigation = (
-            <div>
-                <Button
-                    shortcut={{
-                        trigger: 'N',
-                        description: 'Jump to the previous matching frame'
-                    }}
-                    icon="fa-caret-left"
-                    onClick={this._findPrevious} />
-                <span>{index === -1 ? '?' : index + 1}/{matches.length}</span>
-                <Button
-                    shortcut={{
-                        trigger: 'n',
-                        description: 'Jump to the next matching frame'
-                    }}
-                    icon="fa-caret-right"
-                    onClick={this._findNext} />
-            </div>
-        );
-
         return (
             <div className="search">
                 <input
@@ -55,7 +35,23 @@ export default class Search extends React.Component {
                     placeholder="Search..."
                     onChange={this._handleChange}
                     onKeyDown={this._handleKeyDown} />
-                {matches.length > 0 && navigation}
+                <div style={{display: matches.length > 0 ? 'initial' : 'none'}}>
+                    <Button
+                        shortcut={{
+                            trigger: 'N',
+                            description: 'Jump to the previous matching frame'
+                        }}
+                        icon="fa-caret-left"
+                        onClick={this._findPrevious} />
+                    <span>{index === -1 ? '?' : index + 1}/{matches.length}</span>
+                    <Button
+                        shortcut={{
+                            trigger: 'n',
+                            description: 'Jump to the next matching frame'
+                        }}
+                        icon="fa-caret-right"
+                        onClick={this._findNext} />
+                </div>
             </div>
         );
     }
