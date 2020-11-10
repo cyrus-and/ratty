@@ -24,6 +24,14 @@ export default class Cycle extends React.Component {
         this._notify();
     }
 
+    componentWillUnmount() {
+        // deregister the shortcut
+        const {shortcut} = this.props;
+        if (shortcut) {
+            window.shortcuts.unbind(shortcut.trigger);
+        }
+    }
+
     render() {
         return (
             <Button

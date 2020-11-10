@@ -4,11 +4,20 @@ import './button.scss';
 
 export default class Button extends React.Component {
     componentDidMount() {
+        // register the shortcut
         const {shortcut} = this.props;
         if (shortcut) {
             window.shortcuts.bind({
                 [shortcut.trigger]: [this.props.shortcut.description, this.props.onClick]
             });
+        }
+    }
+
+    componentWillUnmount() {
+        // deregister the shortcut
+        const {shortcut} = this.props;
+        if (shortcut) {
+            window.shortcuts.unbind(shortcut.trigger);
         }
     }
 

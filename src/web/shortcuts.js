@@ -7,6 +7,12 @@ export default class Shortcuts {
         Object.assign(this.mapping, mapping);
     }
 
+    unbind(triggers) {
+        for (const trigger of triggers) {
+            delete this.mapping[trigger];
+        }
+    }
+
     register() {
         window.addEventListener('keydown', this._handler);
     }
