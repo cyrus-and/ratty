@@ -16,6 +16,9 @@
         border: none;
         outline: none;
 
+        // allow to adapt to the parent context
+        font-family: inherit;
+
         &:focus {
             color: $accent-color;
 
