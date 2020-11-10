@@ -15,7 +15,7 @@ export default class Player extends React.Component {
         this.state = {
             fontSize: BASE_FONT_SIZE,
             cursor: 0,
-            searchQuery: '',
+            searchQuery: '', // XXX other search attributes are set by Cycle components
             matches: [],
             playing: false,
             showHelp: false
@@ -28,7 +28,7 @@ export default class Player extends React.Component {
         // repeat the current search when finished loading
         this.props.session.on('progress', (progress) => {
             if (progress === 1.0) {
-                this._doSearch(this.state.searchQuery);
+                this._doSearch();
             }
         });
     }
@@ -60,6 +60,7 @@ export default class Player extends React.Component {
                     session={this.props.session}
                     fontSize={this.state.fontSize}
                     searchQuery={this.state.searchQuery}
+                    caseSensitivity={this.state.caseSensitivity}
                     cursor={this.state.cursor} />
             </div>
         );
@@ -120,22 +121,24 @@ export default class Player extends React.Component {
         this.setState({playing: false});
     }
 
-    _getFramesMatching(searchQuery) {
-        const matches = [];
-
+    _doSearch() {
         // an empty search query means no search query
-        if (!searchQuery) {
-            return matches;
+        if (!this.state.searchQuery) {
+            this.setState({matches: []});
+            return;
         }
 
-        // return the frames matching the query
-        const regexp = new RegExp(searchQuery);
+        // compute the frames matching the query
+        const matches = [];
+        const regexp = new RegExp(this.state.searchQuery, this.state.caseSensitivity ? '' : 'i');
         for (const [index, frame] of this.props.session.getFrames().entries()) {
             if (regexp.test(frame.outputText)) {
                 matches.push(index);
             }
         }
-        return matches;
+
+        // save the resulting matches
+        this.setState({matches});
     }
 
     _jumpToMatch(forward) {
@@ -221,11 +224,12 @@ export default class Player extends React.Component {
         this._adjustFontSize(+1);
     }
 
-    _doSearch = (searchQuery) => {
-        this.setState({
-            searchQuery,
-            matches: this._getFramesMatching(searchQuery)
-        });
+    _setSearchQuery = (searchQuery) => {
+        this.setState({searchQuery}, () => this._doSearch());
+    }
+
+    _setCaseSensitivity = (caseSensitivity) => {
+        this.setState({caseSensitivity}, () => this._doSearch());
     }
 
     _findPrevious = () => {

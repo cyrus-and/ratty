@@ -101,6 +101,16 @@ export default class Controls extends React.Component {
                     player={player}
                     cursor={cursor}
                     matches={matches} />
+                <Cycle
+                    shortcut={{
+                        trigger: 'i',
+                        description: 'Toggle case sensitivity'
+                    }}
+                    choices={[
+                        {label: 'aa', value: false},
+                        {label: 'Aa', value: true}
+                    ]}
+                    onChange={player._setCaseSensitivity} />
                 <Button
                     shortcut={{
                         trigger: '-',

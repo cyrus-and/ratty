@@ -58,7 +58,8 @@ export default class Viewport extends React.Component {
             // perform the highlighting
             if (this.props.searchQuery) {
                 let highlightings = '';
-                for (const match of frame.outputText.matchAll(this.props.searchQuery)) {
+                const regexp = new RegExp(this.props.searchQuery, `g${this.props.caseSensitivity ? '' : 'i'}`);
+                for (const match of frame.outputText.matchAll(regexp)) {
                     // extract match coordinates
                     const row = Math.floor(match.index / frame.columns) + 1;
                     const column = match.index % frame.columns + 1;

@@ -58,7 +58,7 @@ export default class Search extends React.Component {
 
     _handleChange = (event) => {
         const searchQuery = event.target.value;
-        this.props.player._doSearch(searchQuery);
+        this.props.player._setSearchQuery(searchQuery);
     }
 
     _handleKeyDown = (event) => {
