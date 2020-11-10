@@ -31,11 +31,14 @@ export default class Player extends React.Component {
             '-': ['Decrease font size', this._decreaseFontSize],
             '+': ['Increase font size', this._increaseFontSize],
             ' ': ['Play/pause the animation', this._changePlayingStatus],
-            // XXX this is not React idiomatic but since we are forced to use
-            // an id due to lack of support for labels...
-            '/': ['Focus the search box', () => window.document.getElementById('searchBox').focus()],
             'N': ['Jump to the previous matching frame', this._findPrevious],
-            'n': ['Jump to the next matching frame', this._findNext]
+            'n': ['Jump to the next matching frame', this._findNext],
+            // XXX this is not React idiomatic...
+            '/': ['Focus the search box', () => {
+                const searchBox = window.document.getElementById('searchBox');
+                searchBox.focus();
+                searchBox.select();
+            }]
         });
     }
 
