@@ -29,7 +29,8 @@ export default class Loader extends React.Component {
                     <div className={`trigger ${this.state.hover || this.state.drag ? 'active' : ''}`}>
                         <Button
                             icon="fa-folder-open"
-                            onClick={this._handleClick} />
+                            onClick={this._handleClick}
+                            autoFocus={true} />
                     </div>
                     {
                         this.state.error &&

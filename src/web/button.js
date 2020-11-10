@@ -8,6 +8,7 @@ export default class Button extends React.Component {
             <button
                 className="button"
                 type="button"
+                autoFocus={this.props.autoFocus}
                 onClick={this.props.onClick}>
                 {this.props.content || <i className={`fa fa-fw ${this.props.icon}`} />}
             </button>
