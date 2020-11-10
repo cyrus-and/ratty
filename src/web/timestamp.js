@@ -20,12 +20,28 @@ export default class Timestamp extends React.Component {
             {threshold: Infinity, label: 'd'}
         ];
 
+        // if a maximum is provided use it to determine where to stop
+        let stopAt = Infinity;
+        let {maximum} = this.props;
+        if (maximum) {
+            for (stopAt = 0; stopAt < steps.length && maximum; stopAt++) {
+                maximum = Math.floor(maximum / steps[stopAt].threshold);
+            }
+        }
+
         // break the milliseconds timestamp in its components
         let milliseconds = this.props.frame.cumulativeDelay;
         const components = [];
         for (const {threshold} of steps) {
             components.push(milliseconds % threshold);
             milliseconds = Math.floor(milliseconds / threshold);
+        }
+
+        // if a maximum is not provided drop the components that are zero
+        if (!this.props.maximum) {
+            while (components.length > 1 && components[components.length - 1] === 0) {
+                components.pop();
+            }
         }
 
         // format the timestamp string
@@ -39,6 +55,6 @@ export default class Timestamp extends React.Component {
 
             // apply the label
             return output + steps[index].label;
-        }).reverse().join(':');
+        }).slice(0, stopAt).reverse().join(':');
     }
 }

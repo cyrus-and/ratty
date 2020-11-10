@@ -58,7 +58,9 @@ export default class Controls extends React.Component {
                 <Button
                     icon="fa-fast-forward"
                     onClick={player._seekToEnd} />
-                <Timestamp frame={session.getFrames()[cursor]} />
+                <Timestamp
+                    frame={session.getFrames()[cursor]}
+                    maximum={session.getFrames()[totalFrames - 1].cumulativeDelay} />
                 <Seek
                     cursor={cursor}
                     totalFrames={totalFrames}
