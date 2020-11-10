@@ -12,12 +12,16 @@ export default class Cycle extends React.Component {
     }
 
     componentDidMount() {
+        // register the shortcut
         const {shortcut} = this.props;
         if (shortcut) {
             window.shortcuts.bind({
                 [shortcut.trigger]: [this.props.shortcut.description, this._handleClick]
             });
         }
+
+        // synthetically trigger the first time with the default value
+        this._notify();
     }
 
     render() {
@@ -29,15 +33,17 @@ export default class Cycle extends React.Component {
         );
     }
 
+    _notify = () => {
+        // notify the parent of the current choice
+        this.props.onChange(this.props.choices[this.state.index].value);
+    }
+
     _handleClick = () => {
         this.setState((state) => {
             // cycle through the choices
             return {
                 index: (state.index + 1) % this.props.choices.length
             };
-        }, () => {
-            // notify the parent of the current choice
-            this.props.onChange(this.props.choices[this.state.index].value);
-        });
+        }, this._notify);
     }
 }

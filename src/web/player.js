@@ -20,7 +20,6 @@ export default class Player extends React.Component {
             playing: false,
             showHelp: false
         };
-        this.maxDelay = Infinity;
     }
 
     componentDidMount() {
