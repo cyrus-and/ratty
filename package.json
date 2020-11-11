@@ -48,6 +48,7 @@
         "ratty": "./src/node/bin/main.js"
     },
     "files": [
+        "/binding.gyp",
         "/dist/",
         "/src/node/"
     ]
