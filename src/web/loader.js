@@ -42,6 +42,7 @@ export default class Loader extends React.Component {
                 <input
                     ref={this.fileInput}
                     type="file"
+                    accept={`.${packageJson.name}`}
                     onChange={this._handleChange} />
             </div>
         );
