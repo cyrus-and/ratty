@@ -4,9 +4,18 @@ const log = require('../lib/log');
 const package = require('../../../package.json');
 const program = require('commander');
 
+const DESCRIPTION =`${package.description}
+
+   __QQ         __    __
+__( )_">_______/  |__/  |____ __
+\\_ )__ \\__  \\___  ____  __/  |  \\
+ |  | \\/  __ \\ |  |  |  | \\___  /
+ |__|  \\_____/ |__|  |__| / ___/
+${('v' + package.version).padStart(25, ' ')} \\/`;
+
 program
     .version(package.version, '-v, --version', 'Print the version number')
-    .description(package.description)
+    .description(DESCRIPTION)
     .helpOption('-h, --help', 'Print the command line options')
     .addHelpCommand(false);
 
