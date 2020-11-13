@@ -3,6 +3,7 @@ import Info from './info';
 import React from 'react';
 import Session from './session';
 import packageJson from '../../package.json';
+import {gunzipSync} from 'zlib';
 
 import './loader.scss';
 
@@ -118,14 +119,22 @@ export default class Loader extends React.Component {
             const reader = new FileReader();
 
             reader.addEventListener('load', () => {
-                fulfill(reader.result);
+                try {
+                    // apparently a buffer is needed despite the doc says otherwise...
+                    const buffer = Buffer.from(reader.result);
+
+                    // attempt to decompress the file
+                    fulfill(gunzipSync(buffer).toString());
+                } catch (error) {
+                    reject(error);
+                }
             });
 
             reader.addEventListener('error', () => {
                 reject(reader.error);
             });
 
-            reader.readAsText(file);
+            reader.readAsArrayBuffer(file);
         });
     }
 }

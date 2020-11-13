@@ -1,11 +1,12 @@
 const fs = require('fs');
 const pty = require('node-pty');
 const tty = require('../../../build/Release/tty.node');
+const zlib = require('zlib');
 
 function record(argv, options, callback) {
     function emitEvent(event) {
         // writes one JSON object (event) per line
-        fs.writeSync(session, JSON.stringify(event) + '\n');
+        session.write(JSON.stringify(event) + '\n');
     }
 
     function flush() {
@@ -40,8 +41,11 @@ function record(argv, options, callback) {
     let input = '';
     let output = '';
 
-    // open the session file
-    const session = fs.openSync(options.output, 'w', 0o600);
+    // create a compressed stream to write the data to
+    const session = zlib.createGzip();
+
+    // pipe it to the output file
+    session.pipe(fs.createWriteStream(options.output, {mode: 0o600}));
 
     // write the header
     emitEvent(['start', new Date().toISOString(), argv]);
@@ -99,7 +103,7 @@ function record(argv, options, callback) {
         emitEvent(['finish', new Date().toISOString()]);
 
         // finish the session
-        fs.closeSync(session);
+        session.end();
 
         // destroy stdin so to allow the process to exit
         process.stdin.destroy();
