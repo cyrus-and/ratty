@@ -1,6 +1,20 @@
 import EventEmitter from 'events';
 import {SerializeAddon} from 'xterm-addon-serialize';
 import {Terminal} from 'xterm';
+import {deflateRawSync as compress, inflateRawSync as decompress} from 'zlib';
+
+const FRAME_PROPERTIES = {
+    outputAnsi: {
+        get: function () {
+            return decompress(this._outputAnsi).toString();
+        }
+    },
+    outputText: {
+        get: function () {
+            return decompress(this._outputText).toString();
+        }
+    }
+};
 
 export default class Session extends EventEmitter {
     constructor(name, data) {
@@ -86,11 +100,12 @@ export default class Session extends EventEmitter {
                         cumulativeDelay,
                         delay,
                         input,
-                        outputAnsi,
-                        outputText,
-                        rows, columns
+                        rows, columns,
+                        _outputAnsi: compress(outputAnsi),
+                        _outputText: compress(outputText)
                     };
-                    this._frames.push(frame);
+                    // allow to inflate on demand
+                    this._frames.push(Object.defineProperties(frame, FRAME_PROPERTIES));
 
                     // notify the frame
                     this.emit('frame', frame, this._frames.length);
