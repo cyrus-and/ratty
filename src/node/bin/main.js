@@ -1,21 +1,13 @@
 #!/usr/bin/env node
 
+const chalk = require('chalk');
 const log = require('../lib/log');
 const package = require('../../../package.json');
 const program = require('commander');
 
-const DESCRIPTION =`${package.description}
-
-   __QQ         __    __
-__( )_">_______/  |__/  |____ __
-\\_ )__ \\__  \\___  ____  __/  |  \\
- |  | \\/  __ \\ |  |  |  | \\___  /
- |__|  \\_____/ |__|  |__| / ___/
-${('v' + package.version).padStart(25, ' ')} \\/`;
-
 program
     .version(package.version, '-v, --version', 'Print the version number')
-    .description(DESCRIPTION)
+    .description(package.description)
     .helpOption('-h, --help', 'Print the command line options')
     .addHelpCommand(false);
 
@@ -82,5 +74,21 @@ program
             process.exit();
         });
     });
+
+// XXX hack to add a banner to help commands
+const accent = chalk.hex('#ff6000');
+for (const command of [program, ...program.commands]) {
+    command.outputHelp = command.outputHelp.bind(command, (help) => {
+        return `
+     ${accent('__QQ')}         __    __
+  __${accent('( )_">')}_______/  |__/  |____ __
+  \\_ ${accent(')')}__ \\__  \\___  ____  __/  |  \\
+   |  | \\/  __ \\ |  |  |  | \\___  /
+   |__|  \\_____/ |__|  |__| / ___/
+  ${accent(('v' + package.version).padStart(25, ' '))} \\/
+
+` + help;
+    });
+}
 
 program.parse(process.argv);
