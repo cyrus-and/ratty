@@ -54,7 +54,10 @@ export default class Loader extends React.Component {
     }
 
     _handleDragEnter = () => {
-        this.setState({drag: true});
+        this.setState({
+            drag: true,
+            error: null
+        });
     }
 
     _handleDragLeave = () => {
@@ -76,6 +79,7 @@ export default class Loader extends React.Component {
     }
 
     _handleClick = () => {
+        this.setState({error: null});
         this.fileInput.current.click();
     }
 
