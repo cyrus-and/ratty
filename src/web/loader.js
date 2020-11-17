@@ -12,6 +12,7 @@ export default class Loader extends React.Component {
         super(props);
         this.state = {
             drag: false,
+            processing: false,
             error: null
         };
         this.fileInput = React.createRef();
@@ -27,11 +28,21 @@ export default class Loader extends React.Component {
                 onDrop={this._handleDrop}>
                 <div>
                     <Info />
-                    <div className={`trigger ${this.state.hover || this.state.drag ? 'active' : ''}`}>
-                        <Button
-                            icon="fa-folder-open"
-                            onClick={this._handleClick}
-                            autoFocus={true} />
+                    <div className="hero">
+                        {
+                            this.state.processing
+                            &&
+                            <div className="spinner">
+                                <i className="fa fa-cog" />
+                            </div>
+                            ||
+                            <div className={`trigger ${this.state.hover || this.state.drag ? 'active' : ''}`}>
+                                <Button
+                                    icon="fa-folder-open"
+                                    onClick={this._handleClick}
+                                    autoFocus={true} />
+                            </div>
+                        }
                     </div>
                     {
                         this.state.error &&
@@ -92,6 +103,7 @@ export default class Loader extends React.Component {
         const handleError = (error) => {
             console.error(error);
             this.setState({
+                processing: false,
                 error,
                 drag: false
             });
@@ -101,6 +113,11 @@ export default class Loader extends React.Component {
         };
 
         try {
+            // show the activity
+            this.setState({
+                processing: true
+            });
+
             // read the file and start loading the session
             const data = await this._readFile(file);
             const name = file.name.replace(/\.[^.]+$/, '');

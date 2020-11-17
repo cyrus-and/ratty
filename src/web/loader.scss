@@ -1,5 +1,15 @@
 @import 'common.scss';
 
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(359deg);
+    }
+}
+
 .loader {
     display: table-cell;
     width: 100vw;
@@ -15,13 +25,17 @@
         background: $background-color;
         color: $foreground-color;
 
-        .trigger {
+        .hero {
             font-size: 4rem;
             margin-top: 1rem;
             margin-bottom: 3rem;
 
-            &.active {
+            .trigger.active {
                 color: $accent-color;
+            }
+
+            .spinner {
+                animation: spin 2s infinite linear;
             }
         }
 
