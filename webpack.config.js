@@ -3,7 +3,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const package = require('./package.json');
 
 module.exports = {
-    entry: './src/web/index.js',
+    entry: {
+        index: './src/web/index.js',
+        searchWorker: './src/web/searchWorker.js'
+    },
     module: {
         rules: [
             {
@@ -33,7 +36,10 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: package.name
+            title: package.name,
+            excludeChunks: [
+                'searchWorker'
+            ]
         }),
         new HtmlWebpackPartialsPlugin({
             path: './src/web/root.html'

@@ -20,6 +20,7 @@ export default class Player extends React.Component {
             playing: false,
             showHelp: false
         };
+        this.searchWorker = null;
     }
 
     componentDidMount() {
@@ -122,23 +123,33 @@ export default class Player extends React.Component {
     }
 
     _doSearch() {
+        // kill any currently running search workers
+        if (this.searchWorker) {
+            this.searchWorker.terminate();
+            this.currentSearch = null;
+        }
+
         // an empty search query means no search query
         if (!this.state.searchQuery) {
             this.setState({matches: []});
             return;
         }
 
-        // compute the frames matching the query
-        const matches = [];
-        const regexp = new RegExp(this.state.searchQuery, this.state.caseSensitivity ? '' : 'i');
-        for (const [index, frame] of this.props.session.getFrames().entries()) {
-            if (regexp.test(frame.outputText)) {
-                matches.push(index);
-            }
-        }
+        // create a separate worker to do the search job
+        this.searchWorker = new Worker('./searchWorker.js');
 
-        // save the resulting matches
-        this.setState({matches});
+        // store the resulting matches
+        this.searchWorker.addEventListener('message', (event) => {
+            const matches = event.data;
+            this.setState({matches});
+        });
+
+        // submit the search job
+        this.searchWorker.postMessage({
+            searchQuery: this.state.searchQuery,
+            caseSensitivity: this.state.caseSensitivity,
+            frames: this.props.session.getFrames()
+        });
     }
 
     _jumpToMatch(forward) {
