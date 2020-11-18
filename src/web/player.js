@@ -16,7 +16,7 @@ export default class Player extends React.Component {
             fontSize: BASE_FONT_SIZE,
             cursor: 0,
             searchQuery: '', // XXX other search attributes are set by Cycle components
-            matches: [],
+            matches: undefined,
             playing: false,
             showHelp: false
         };
@@ -129,9 +129,11 @@ export default class Player extends React.Component {
             this.currentSearch = null;
         }
 
+        // clean the previous counters
+        this.setState({matches: undefined});
+
         // an empty search query means no search query
         if (!this.state.searchQuery) {
-            this.setState({matches: []});
             return;
         }
 

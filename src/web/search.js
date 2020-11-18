@@ -26,16 +26,14 @@ export default class Search extends React.Component {
 
     render() {
         const {cursor, matches} = this.props;
-        const index = matches.indexOf(cursor);
 
-        return (
-            <div className="search">
-                <input
-                    id="searchBox"
-                    placeholder="Search..."
-                    onChange={this._handleChange}
-                    onKeyDown={this._handleKeyDown} />
-                <div style={{display: matches.length > 0 ? 'initial' : 'none'}}>
+        // show nothing during the search or if there is no current search
+        let controls = null;
+        if (matches !== undefined) {
+            const index = matches.indexOf(cursor);
+
+            controls = (
+                <div>
                     <Button
                         shortcut={{
                             trigger: 'N',
@@ -52,6 +50,17 @@ export default class Search extends React.Component {
                         icon="fa-caret-right"
                         onClick={this._findNext} />
                 </div>
+            );
+        }
+
+        return (
+            <div className="search">
+                <input
+                    id="searchBox"
+                    placeholder="Search..."
+                    onChange={this._handleChange}
+                    onKeyDown={this._handleKeyDown} />
+                {controls}
             </div>
         );
     }
