@@ -27,7 +27,7 @@
         "webpack": "^4.44.2",
         "webpack-cli": "^3.3.12",
         "webpack-dev-server": "^3.11.0",
-        "xterm": "^4.9.0",
+        "xterm": "^4.11.0",
         "xterm-addon-serialize": "^0.4.0"
     },
     "dependencies": {
