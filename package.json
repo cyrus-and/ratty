@@ -1,6 +1,6 @@
 {
     "name": "ratty",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "description": "Record and replay terminal sessions.",
     "author": "Andrea Cardaci <cyrus.and@gmail.com>",
     "repository": "https://github.com/cyrus-and/ratty",
@@ -45,7 +45,7 @@
         "clean": "rm -fr dist/ build/"
     },
     "bin": {
-        "ratty": "./src/node/bin/main.js"
+        "ratty": "src/node/bin/main.js"
     },
     "files": [
         "/binding.gyp",
