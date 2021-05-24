@@ -70,7 +70,7 @@ export default class Viewport extends React.Component {
 
                     // replace the original text with the highlighting
                     const move = `\x1b[${row};${column}H`;
-                    const highlight = `\x1b[48;5;202m\x1b[30m${match}\x1b[0m`; // XXX quasi accent color on black
+                    const highlight = `\x1b[0m\x1b[48;2;255;96;0m\x1b[38;2;0;0;0m${match}\x1b[0m`; // XXX black on accent color
                     highlightings += `${move}${highlight}`;
                 }
 
