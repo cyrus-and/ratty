@@ -12,7 +12,7 @@ export default class Info extends React.Component {
                     <span className="version">v{packageJson.version}</span>
                 </div>
                 <a className="home" href={packageJson.repository} target="_blank">
-                    <i className="fa fa-fw fa-home" />
+                    <i className="fa fa-fw fa-github" />
                 </a>
             </div>
         );
