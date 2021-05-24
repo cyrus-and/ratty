@@ -104,7 +104,8 @@ export default class Session extends EventEmitter {
                         _outputAnsi: compress(outputAnsi),
                         _outputText: compress(outputText)
                     };
-                    // allow to inflate on demand
+
+                    // allow to inflate lazily
                     this._frames.push(Object.defineProperties(frame, FRAME_PROPERTIES));
 
                     // notify the frame

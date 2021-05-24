@@ -74,7 +74,7 @@ function record(argv, options, callback) {
     // process data coming from the PTY
     ptyProcess.on('data', (chunk) => {
         // read the next chunk and mark the timestamp in milliseconds
-        const now = Number(process.hrtime.bigint() / 1000000n);
+        const now = Number(process.hrtime.bigint() / 1_000_000n);
 
         // the first chunk marks the epoch
         if (epoch === undefined) {
