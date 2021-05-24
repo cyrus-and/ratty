@@ -17,9 +17,9 @@ export default class Viewport extends React.Component {
         });
         this.terminal.attachCustomKeyEventHandler(() => false);
 
-        // open the terminal and hide the cursor
+        // start the terminal
         this.terminal.open(this.root.current);
-        this.terminal.write('\x1b[?25l');
+        this.terminal.focus();
 
         // force yet another UI update since the first invocation of render
         // simply created the DOM but did not display the frame (since the
@@ -57,7 +57,10 @@ export default class Viewport extends React.Component {
 
             // perform the highlighting
             if (this.props.searchQuery) {
-                let highlightings = '';
+                // save the current cursor position
+                let highlightings = '\x1b[s';
+
+                // build a regexp to highlight the search results
                 const regexp = new RegExp(this.props.searchQuery, `g${this.props.caseSensitivity ? '' : 'i'}`);
                 for (const match of frame.outputText.matchAll(regexp)) {
                     // extract match coordinates
@@ -70,6 +73,9 @@ export default class Viewport extends React.Component {
                     const highlight = `\x1b[48;5;202m\x1b[30m${match}\x1b[0m`; // XXX quasi accent color on black
                     highlightings += `${move}${highlight}`;
                 }
+
+                // restore the cursor position and write the highlightings
+                highlightings += '\x1b[u';
                 this.terminal.write(highlightings);
             }
         }
