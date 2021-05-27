@@ -107,24 +107,22 @@ export default class Session extends EventEmitter {
                         outputText += buffer.getLine(i).translateToString();
                     }
 
-                    // add a new frame
-                    const frame = {
+                    // creates a new frame (allowing to inflate lazily its outputs)
+                    const frame = Object.defineProperties({
                         cumulativeDelay,
                         delay,
                         input: cumulativeInput,
                         rows, columns,
                         _outputAnsi: compress(outputAnsi),
                         _outputText: compress(outputText)
-                    };
+                    }, FRAME_PROPERTIES)
 
-                    // allow to inflate lazily
-                    this._frames.push(Object.defineProperties(frame, FRAME_PROPERTIES));
+                    // append and notify the frame
+                    this._frames.push(frame);
+                    this.emit('frame', frame, this._frames.length);
 
                     // reset the input buffer since a frame has been emitted
                     cumulativeInput = '';
-
-                    // notify the frame
-                    this.emit('frame', frame, this._frames.length);
                     break;
 
                 case 'resize':
