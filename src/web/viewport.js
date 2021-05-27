@@ -3,7 +3,7 @@ import {Terminal} from 'xterm';
 
 import './viewport.scss';
 
-export default class Viewport extends React.Component {
+export default class Viewport extends React.PureComponent {
     constructor(props) {
         super(props)
         this.root = React.createRef();
