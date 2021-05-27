@@ -28,6 +28,9 @@ function record(argv, options, callback) {
     function resize() {
         const {columns, rows} = process.stdout;
 
+        // flush the frame so to display the next output in the resized terminal
+        flush();
+
         // resize the terminal
         ptyProcess.resize(columns, rows);
 
