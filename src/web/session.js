@@ -59,6 +59,8 @@ export default class Session extends EventEmitter {
         let lastDelay;
         let rows;
         let columns;
+        let lastOutput;
+        let cumulativeInput = '';
         for (const [index, event] of events.entries()) {
             const type = event[0];
             const args = event.slice(1);
@@ -81,9 +83,22 @@ export default class Session extends EventEmitter {
                     // compute the time difference to obtain the frame delay
                     const delay = cumulativeDelay - (lastDelay || 0);
 
+                    // update the last delay
+                    lastDelay = cumulativeDelay;
+
                     // write the record data to the terminal and read back the buffer
                     await new Promise((fulfill) => terminal.write(output, fulfill));
                     const outputAnsi = serializeAddon.serialize();
+
+                    // accumulate the input in case this frame is skipped
+                    cumulativeInput += input;
+
+                    // skip identical adjacent frames
+                    if (lastOutput === outputAnsi) {
+                        continue;
+                    } else {
+                        lastOutput = outputAnsi;
+                    }
 
                     // fetch the current frame content as plain text
                     let outputText = '';
@@ -92,14 +107,11 @@ export default class Session extends EventEmitter {
                         outputText += buffer.getLine(i).translateToString();
                     }
 
-                    // update the last delay
-                    lastDelay = cumulativeDelay;
-
                     // add a new frame
                     const frame = {
                         cumulativeDelay,
                         delay,
-                        input,
+                        input: cumulativeInput,
                         rows, columns,
                         _outputAnsi: compress(outputAnsi),
                         _outputText: compress(outputText)
@@ -107,6 +119,9 @@ export default class Session extends EventEmitter {
 
                     // allow to inflate lazily
                     this._frames.push(Object.defineProperties(frame, FRAME_PROPERTIES));
+
+                    // reset the input buffer since a frame has been emitted
+                    cumulativeInput = '';
 
                     // notify the frame
                     this.emit('frame', frame, this._frames.length);
