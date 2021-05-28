@@ -22,12 +22,13 @@ body {
 
 a {
     transition: color $hover-transition-time;
+    outline: none;
 
     &:link, &:visited {
         color: $foreground-color;
     }
 
-    &:hover {
+    &:hover, &:focus-visible {
         color: $accent-color;
     }
 }

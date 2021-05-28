@@ -19,7 +19,18 @@ export default class Viewport extends React.PureComponent {
 
         // start the terminal
         this.terminal.open(this.root.current);
+
+        // XXX apparently, in xterm.js the cursor appears upon the first focus
+        // event, so a first synthetic focus event is performed, then the focus
+        // is reset to body (in doing so it must have the tabindex attribute
+        // set, which will then be removed), additionally the terminal and its
+        // text area are made not focusable via the tab key
         this.terminal.focus();
+        document.body.setAttribute('tabindex', '0');
+        document.body.focus();
+        document.body.removeAttribute('tabindex');
+        this.terminal.textarea.setAttribute('tabindex', '-1');
+        this.terminal.element.setAttribute('tabindex', '-1');
 
         // force yet another UI update since the first invocation of render
         // simply created the DOM but did not display the frame (since the

@@ -14,7 +14,7 @@
     font-size: inherit;
     font-family: inherit;
 
-    &:hover {
+    &:hover, &:focus-visible {
         color: $accent-color;
     }
 }

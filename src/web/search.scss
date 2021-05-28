@@ -1,11 +1,17 @@
 @import 'common.scss';
 
 .search {
+    transition: width 200ms;
     display: flex;
     align-items: center;
     width: 12em;
     border: 1px solid $foreground-color;
     border-radius: 1em;
+
+    &:focus-within {
+        width: 20em;
+        border-color: $accent-color;
+    }
 
     input {
         flex-grow: 1;
