@@ -21,17 +21,11 @@ export default class Player extends React.Component {
             showHelp: false
         };
         this.searchWorker = null;
+        this.frameHandler = null;
     }
 
     componentDidMount() {
         window.addEventListener('beforeunload', this.handleNavigationConfirmation);
-
-        // repeat the current search when finished loading
-        this.props.session.on('progress', (progress) => {
-            if (progress === 1.0) {
-                this._doSearch();
-            }
-        });
     }
 
     componentWillUnmount() {
@@ -123,13 +117,19 @@ export default class Player extends React.Component {
     }
 
     _doSearch() {
+        const {searchQuery, caseSensitivity} = this.state;
+
         // kill any currently running search workers
         if (this.searchWorker) {
             this.searchWorker.terminate();
-            this.currentSearch = null;
         }
 
-        // clean the previous counters
+        // deregister any previous frame handler
+        if (this.frameHandler) {
+            this.props.session.off('frame', this.frameHandler);
+        }
+
+        // clean the previous matches
         this.setState({matches: undefined});
 
         // an empty search query means no search query
@@ -140,17 +140,33 @@ export default class Player extends React.Component {
         // create a separate worker to do the search job
         this.searchWorker = new Worker('./searchWorker.js');
 
-        // store the resulting matches
-        this.searchWorker.addEventListener('message', (event) => {
-            const matches = event.data;
-            this.setState({matches});
+        // submit the processed frames so far
+        this.searchWorker.postMessage({
+            searchQuery,
+            caseSensitivity,
+            baseIndex: 0,
+            frames: this.props.session.getFrames()
         });
 
-        // submit the search job
-        this.searchWorker.postMessage({
-            searchQuery: this.state.searchQuery,
-            caseSensitivity: this.state.caseSensitivity,
-            frames: this.props.session.getFrames()
+        // submit new frames as soon as they are processed (saving the frame handler)
+        this.props.session.on('frame', this.frameHandler = (frame, index) => {
+            this.searchWorker.postMessage({
+                searchQuery,
+                caseSensitivity,
+                baseIndex: index,
+                frames: [frame]
+            });
+        });
+
+        // append the index of the next matching frame
+        this.searchWorker.addEventListener('message', (event) => {
+            const index = event.data;
+            this.setState((state) => {
+                return {
+                    // append the new index
+                    matches: [...(state.matches || []), index]
+                };
+            });
         });
     }
 
