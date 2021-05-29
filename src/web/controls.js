@@ -134,6 +134,13 @@ export default class Controls extends React.Component {
                     }}
                     icon="fa-question-circle"
                     onClick={player._toggleHelp} />
+                <Button
+                    shortcut={{
+                        trigger: 'q',
+                        description: 'Close the player'
+                    }}
+                    icon="fa-times-circle"
+                    onClick={player._close} />
             </div>
         );
     }

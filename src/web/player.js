@@ -268,4 +268,8 @@ export default class Player extends React.Component {
     _findNext = () => {
         this._jumpToMatch(true);
     }
+
+    _close = () => {
+        window.location.reload();
+    }
 }
