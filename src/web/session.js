@@ -119,7 +119,7 @@ export default class Session extends EventEmitter {
 
                     // append and notify the frame
                     this._frames.push(frame);
-                    this.emit('frame', frame, this._frames.length);
+                    this.emit('frame', frame, this._frames.length - 1);
 
                     // reset the input buffer since a frame has been emitted
                     cumulativeInput = '';

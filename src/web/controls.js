@@ -20,8 +20,10 @@ export default class Controls extends React.Component {
 
     componentDidMount() {
         // keep track of loaded frames
-        this.props.session.on('frame', (_, totalFrames) => {
-            this.setState({totalFrames});
+        this.props.session.on('frame', (_, index) => {
+            this.setState({
+                totalFrames: index + 1
+            });
         });
 
         // keep track of the overall progress
