@@ -11,7 +11,7 @@ export default class Loader extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            drag: false,
+            dragging: false,
             processing: false,
             error: null
         };
@@ -36,7 +36,7 @@ export default class Loader extends React.Component {
                                 <i className="fa fa-cog" />
                             </div>
                             ||
-                            <div className={`trigger ${this.state.drag ? 'active' : ''}`}>
+                            <div className={`trigger ${this.state.dragging ? 'active' : ''}`}>
                                 <Button
                                     icon="fa-folder-open"
                                     onClick={this._handleClick} />
@@ -65,7 +65,7 @@ export default class Loader extends React.Component {
 
     _handleDragEnter = () => {
         this.setState({
-            drag: true,
+            dragging: true,
             error: null
         });
     }
@@ -73,7 +73,7 @@ export default class Loader extends React.Component {
     _handleDragLeave = () => {
         // skip if dragging over the button
         if (event.relatedTarget === null) {
-            this.setState({drag: false});
+            this.setState({dragging: false});
         }
     }
 
@@ -104,7 +104,7 @@ export default class Loader extends React.Component {
             this.setState({
                 processing: false,
                 error,
-                drag: false
+                dragging: false
             });
 
             // allow to select the same file again on error
