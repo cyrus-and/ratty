@@ -13,9 +13,18 @@ export default class Loader extends React.Component {
         this.state = {
             dragging: false,
             processing: false,
-            error: null
+            error: null,
+            enabled: true
         };
         this.fileInput = React.createRef();
+    }
+
+    componentDidMount() {
+        window.addEventListener('focus', this._enableLoader);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('focus', this._enableLoader);
     }
 
     render() {
@@ -64,6 +73,10 @@ export default class Loader extends React.Component {
     }
 
     _handleDragEnter = () => {
+        if (!this.state.enabled) {
+            return;
+        }
+
         this.setState({
             dragging: true,
             error: null
@@ -71,6 +84,10 @@ export default class Loader extends React.Component {
     }
 
     _handleDragLeave = () => {
+        if (!this.state.enabled) {
+            return;
+        }
+
         // skip if dragging over the button
         if (event.relatedTarget === null) {
             this.setState({dragging: false});
@@ -79,17 +96,30 @@ export default class Loader extends React.Component {
 
     _handleDrop = (event) => {
         event.preventDefault();
+        if (!this.state.enabled) {
+            return;
+        }
+
+        // try to load the dropped file
         const sessionFile = event.dataTransfer.files[0];
         this._loadSessionAndNotify(sessionFile);
     }
 
     _handleChange = () => {
+        // re enable the dragging
+        this.setState({enabled: true});
+
+        // try to load the chosen file
         const sessionFile = this.fileInput.current.files[0];
         this._loadSessionAndNotify(sessionFile);
     }
 
     _handleClick = () => {
-        this.setState({error: null});
+        // show the file open dialog, resetting errors and disabling drag and drop
+        this.setState({
+            error: null,
+            enabled: false
+        });
         this.fileInput.current.click();
     }
 
@@ -156,5 +186,9 @@ export default class Loader extends React.Component {
 
             reader.readAsArrayBuffer(file);
         });
+    }
+
+    _enableLoader = () => {
+        this.setState({enabled: true});
     }
 }
