@@ -36,7 +36,7 @@ export default class Loader extends React.Component {
                                 <i className="fa fa-cog" />
                             </div>
                             ||
-                            <div className={`trigger ${this.state.hover || this.state.drag ? 'active' : ''}`}>
+                            <div className={`trigger ${this.state.drag ? 'active' : ''}`}>
                                 <Button
                                     icon="fa-folder-open"
                                     onClick={this._handleClick} />
