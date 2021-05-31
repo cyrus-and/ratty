@@ -100,8 +100,14 @@ export default class Loader extends React.Component {
             return;
         }
 
-        // try to load the dropped file
+        // ignore non-file objects dropped
         const sessionFile = event.dataTransfer.files[0];
+        if (!sessionFile) {
+            this.setState({dragging: false});
+            return;
+        }
+
+        // try to load the dropped file
         this._loadSessionAndNotify(sessionFile);
     }
 
@@ -124,10 +130,6 @@ export default class Loader extends React.Component {
     }
 
     async _loadSessionAndNotify(file) {
-        if (!file) {
-            return;
-        }
-
         // common error handling
         const handleError = (error) => {
             console.error(error);
