@@ -73,6 +73,7 @@ export default class Loader extends React.Component {
     }
 
     _handleDragEnter = () => {
+        // ignore drag and drop if the file dialog is open
         if (!this.state.enabled) {
             return;
         }
@@ -84,6 +85,7 @@ export default class Loader extends React.Component {
     }
 
     _handleDragLeave = () => {
+        // ignore drag and drop if the file dialog is open
         if (!this.state.enabled) {
             return;
         }
@@ -96,6 +98,8 @@ export default class Loader extends React.Component {
 
     _handleDrop = (event) => {
         event.preventDefault();
+
+        // ignore drag and drop if the file dialog is open
         if (!this.state.enabled) {
             return;
         }
