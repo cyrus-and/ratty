@@ -12,9 +12,9 @@ export default class Search extends React.Component {
     componentDidMount() {
         // register the shortcut
         window.shortcuts.bind({
-            '/': ['Focus the search box', () => {
                 searchBox.focus();
                 searchBox.select();
+            's': ['Focus the search box', () => {
             }]
         });
     }
