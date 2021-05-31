@@ -58,6 +58,7 @@ export default class Search extends React.Component {
                 <input
                     id="searchBox"
                     placeholder="Search..."
+                    spellCheck="false"
                     onChange={this._handleChange}
                     onKeyDown={this._handleKeyDown} />
                 {controls}
