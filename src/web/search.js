@@ -74,10 +74,12 @@ export default class Search extends React.Component {
     _handleKeyDown = (event) => {
         switch (event.key) {
             case 'Enter':
-                if (event.getModifierState("Shift")) {
-                    this._findPrevious();
-                } else {
-                    this._findNext();
+                if (this.props.matches !== undefined) {
+                    if (event.getModifierState("Shift")) {
+                        this._findPrevious();
+                    } else {
+                        this._findNext();
+                    }
                 }
                 break;
 
