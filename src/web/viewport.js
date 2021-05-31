@@ -1,3 +1,4 @@
+import * as regexps from './regexps';
 import React from 'react';
 import {Terminal} from 'xterm';
 
@@ -68,11 +69,16 @@ export default class Viewport extends React.PureComponent {
 
             // perform the highlighting
             if (this.props.searchQuery) {
+                // build a regexp to highlight the search results
+                const regexp = regexps.build(this.props.searchQuery, this.props.caseSensitivity, true);
+                if (regexp === null) {
+                    return;
+                }
+
                 // save the current cursor position
                 let highlightings = '\x1b[s';
 
-                // build a regexp to highlight the search results
-                const regexp = new RegExp(this.props.searchQuery, `g${this.props.caseSensitivity ? '' : 'i'}`);
+                // highlight the search results
                 for (const match of frame.outputText.matchAll(regexp)) {
                     // extract match coordinates
                     const row = Math.floor(match.index / frame.columns) + 1;
