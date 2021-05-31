@@ -1,4 +1,5 @@
 import EventEmitter from 'events';
+import process from 'process';
 import {SerializeAddon} from 'xterm-addon-serialize';
 import {Terminal} from 'xterm';
 import {deflateRawSync as compress, inflateRawSync as decompress} from 'zlib';
@@ -65,19 +66,21 @@ export default class Session extends EventEmitter {
             const type = event[0];
             const args = event.slice(1);
             switch (type) {
-                case 'start':
+                case 'start': {
                     [this._meta.start, this._meta.command] = args;
 
                     this.emit('start');
                     break;
+                }
 
-                case 'finish':
+                case 'finish': {
                     [this._meta.finish] = args;
 
                     this.emit('finish');
                     break;
+                }
 
-                case 'frame':
+                case 'frame': {
                     const [cumulativeDelay, input, output] = args;
 
                     // compute the time difference to obtain the frame delay
@@ -115,7 +118,7 @@ export default class Session extends EventEmitter {
                         rows, columns,
                         _outputAnsi: compress(outputAnsi),
                         _outputText: compress(outputText)
-                    }, FRAME_PROPERTIES)
+                    }, FRAME_PROPERTIES);
 
                     // append and notify the frame
                     this._frames.push(frame);
@@ -124,13 +127,15 @@ export default class Session extends EventEmitter {
                     // reset the input buffer since a frame has been emitted
                     cumulativeInput = '';
                     break;
+                }
 
-                case 'resize':
+                case 'resize': {
                     [columns, rows] = args;
 
                     // update the terminal size
                     terminal.resize(columns, rows);
                     break;
+                }
             }
 
             // notify the progress

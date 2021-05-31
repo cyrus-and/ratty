@@ -4,7 +4,7 @@ import './seek.scss';
 
 export default class Seek extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             active: false
         };

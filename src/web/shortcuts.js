@@ -1,5 +1,5 @@
 export default class Shortcuts {
-    constructor(mapping) {
+    constructor() {
         this.mapping = {};
     }
 

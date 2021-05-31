@@ -3,6 +3,7 @@ import Info from './info';
 import React from 'react';
 import Session from './session';
 import packageJson from '../../package.json';
+import {Buffer} from 'buffer';
 import {gunzipSync} from 'zlib';
 
 import './loader.scss';

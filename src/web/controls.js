@@ -10,7 +10,7 @@ import './controls.scss';
 
 export default class Controls extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             progress: 0,
             // initial number of loaded frames

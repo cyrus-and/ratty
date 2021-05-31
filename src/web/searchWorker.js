@@ -1,4 +1,5 @@
 import * as regexps from './regexps';
+import {Buffer} from 'buffer';
 import {inflateRawSync as decompress} from 'zlib';
 
 addEventListener('message', (event) => {

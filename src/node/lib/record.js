@@ -16,7 +16,7 @@ function record(argv, options, callback) {
         }
 
         // compute the delay relative to the epoch
-        delay = timestamp - epoch;
+        const delay = timestamp - epoch;
 
         // save the JSON representation of the record (one per line)
         emitEvent(['frame', delay, input, output]);

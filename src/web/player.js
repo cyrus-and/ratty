@@ -11,7 +11,7 @@ const MAX_FONT_SIZE = 20;
 
 export default class Player extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             fontSize: BASE_FONT_SIZE,
             cursor: 0,
@@ -66,7 +66,7 @@ export default class Player extends React.Component {
         if (!noStop) {
             this._stop();
         }
-        this.setState((state, props) => {
+        this.setState((state) => {
             const maxCursor = this.props.session.getFrames().length - 1;
             const newCursor = (typeof to === 'undefined' ? state.cursor : to) + (delta || 0);
             return {
@@ -76,7 +76,7 @@ export default class Player extends React.Component {
     }
 
     _adjustFontSize(delta) {
-        this.setState((state, props) => {
+        this.setState((state) => {
             return {
                 fontSize: Math.min(Math.max(state.fontSize + delta, MIN_FONT_SIZE), MAX_FONT_SIZE)
             };

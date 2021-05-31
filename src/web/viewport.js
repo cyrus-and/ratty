@@ -6,7 +6,7 @@ import './viewport.scss';
 
 export default class Viewport extends React.PureComponent {
     constructor(props) {
-        super(props)
+        super(props);
         this.root = React.createRef();
     }
 
@@ -83,11 +83,11 @@ export default class Viewport extends React.PureComponent {
                     // extract match coordinates
                     const row = Math.floor(match.index / frame.columns) + 1;
                     const column = match.index % frame.columns + 1;
-                    const string = match[0];
+                    const text = match[0];
 
                     // replace the original text with the highlighting
                     const move = `\x1b[${row};${column}H`;
-                    const highlight = `\x1b[0m\x1b[48;2;255;96;0m\x1b[38;2;0;0;0m${match}\x1b[0m`; // XXX black on accent color
+                    const highlight = `\x1b[0m\x1b[48;2;255;96;0m\x1b[38;2;0;0;0m${text}\x1b[0m`; // XXX black on accent color
                     highlightings += `${move}${highlight}`;
                 }
 

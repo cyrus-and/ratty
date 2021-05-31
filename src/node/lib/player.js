@@ -14,7 +14,7 @@ function replay(options) {
         // serve the static file
         const stream = fs.createReadStream(path.join(ROOT, path.basename(url)));
         stream.pipe(response);
-        stream.on('error', (err) => {
+        stream.on('error', () => {
             response.writeHead(500);
             response.end();
         });
