@@ -270,6 +270,7 @@ export default class Player extends React.Component {
     }
 
     _close = () => {
-        window.location.reload();
+        // reassign the location instead of reloading to show a more meaningful message in the browser
+        window.location = window.location;
     }
 }
