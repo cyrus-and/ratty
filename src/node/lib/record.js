@@ -54,7 +54,13 @@ function record(argv, options, callback) {
     emitEvent(['start', new Date().toISOString(), argv]);
 
     // run the command
-    const ptyProcess = pty.spawn(argv[0], argv.slice(1));
+    const rattyLevel = (parseInt(process.env['RATTY_LEVEL'], 10) || 0) + 1;
+    const ptyProcess = pty.spawn(argv[0], argv.slice(1), {
+        env: {
+            ...process.env,
+            RATTY_LEVEL: rattyLevel // similar to SHLVL
+        }
+    });
 
     // handle the terminal resize and syntetically trigger the first time
     process.stdout.on('resize', resize);
