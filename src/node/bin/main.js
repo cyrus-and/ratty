@@ -66,7 +66,7 @@ program
                 open(url);
             }
         }).on('error', (err) => {
-            log.error(err.message);
+            log.error(`Cannot start server: ${err}`);
         });
 
         // allow a clean exit status on Ctrl-C
