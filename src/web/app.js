@@ -26,7 +26,7 @@ export default class App extends React.Component {
     }
 
     render() {
-        // show the loader and the player as soon as there is a session to play
+        // show the loader or the player (as soon as there is a session to play)
         if (this.state.session) {
             return <Player session={this.state.session} />;
         } else {
