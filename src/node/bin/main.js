@@ -56,17 +56,19 @@ program
         const path = require('path');
         const play = require('../lib/play');
 
-        // find the absolute path and add it to the url
-        const sessionPath = session ? path.resolve(session) : null;
+        // find the absolute path unless it is an url and add it to the hash
+        if (session && !/^https?:/.test(session)) {
+            session = path.resolve(session);
+        }
 
         // serve the player
-        const server = play(sessionPath, options).on('listening', () => {
+        const server = play(session, options).on('listening', () => {
             // compute the listening URL
             let url = `http://${options.host}:${server.address().port}`;
 
             // add the session if provided
-            if (sessionPath) {
-                url += `#${sessionPath}`;
+            if (session) {
+                url += `#${session}`;
             }
 
             log.info(`Listening on ${url}`);
