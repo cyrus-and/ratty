@@ -71,7 +71,8 @@ program
                 url += `#${session}`;
             }
 
-            log.info(`Listening on ${url}`);
+            log.info(`Player running at ${url}`);
+            log.info('Use Ctrl-C to exit...');
 
             // open the browser automatically
             if (options.open) {
