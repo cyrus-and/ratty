@@ -25,20 +25,11 @@ export default class Player extends React.Component {
     }
 
     componentDidMount() {
-        window.addEventListener('beforeunload', this.handleNavigationConfirmation);
+        window.addEventListener('beforeunload', this._handleNavigationConfirmation);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('beforeunload', this.handleNavigationConfirmation);
-    }
-
-    handleNavigationConfirmation(event) {
-        // setting this propery to whatever value forces the browser to show a
-        // confirmation dialog when the user navigates away from or reload the
-        // page
-        if (typeof __webpackDevServer === 'undefined') { // XXX this is defined in the command line
-            event.returnValue = true;
-        }
+        window.removeEventListener('beforeunload', this._handleNavigationConfirmation);
     }
 
     render() {
@@ -189,6 +180,15 @@ export default class Player extends React.Component {
         // stop then jump to match
         this._stop();
         this.setState({cursor: matches[i]});
+    }
+
+    _handleNavigationConfirmation(event) {
+        // setting this propery to whatever value forces the browser to show a
+        // confirmation dialog when the user navigates away from or reload the
+        // page
+        if (typeof __webpackDevServer === 'undefined') { // XXX this is defined in the command line
+            event.returnValue = true;
+        }
     }
 
     _toggleHelp = () => {

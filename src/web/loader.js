@@ -73,74 +73,6 @@ export default class Loader extends React.Component {
         );
     }
 
-    _handleDragOver = (event) => {
-        event.preventDefault();
-    }
-
-    _handleDragEnter = () => {
-        // ignore drag and drop if the file dialog is open
-        if (!this.state.enabled) {
-            return;
-        }
-
-        // reset hash and errors
-        this._resetHash();
-        this.setState({
-            dragging: true,
-            error: null
-        });
-    }
-
-    _handleDragLeave = () => {
-        // ignore drag and drop if the file dialog is open
-        if (!this.state.enabled) {
-            return;
-        }
-
-        // skip if dragging over the button
-        if (event.relatedTarget === null) {
-            this.setState({dragging: false});
-        }
-    }
-
-    _handleDrop = (event) => {
-        event.preventDefault();
-
-        // ignore drag and drop if the file dialog is open
-        if (!this.state.enabled) {
-            return;
-        }
-
-        // ignore non-file objects dropped
-        const sessionFile = event.dataTransfer.files[0];
-        if (!sessionFile) {
-            this.setState({dragging: false});
-            return;
-        }
-
-        // try to load the dropped file
-        this._loadSessionFromClientAndNotify(sessionFile);
-    }
-
-    _handleChange = () => {
-        // re enable the dragging
-        this.setState({enabled: true});
-
-        // try to load the chosen file
-        const sessionFile = this.fileInput.current.files[0];
-        this._loadSessionFromClientAndNotify(sessionFile);
-    }
-
-    _handleClick = () => {
-        // show the file open dialog, resetting errors and hash, and disabling drag and drop
-        this.setState({
-            error: null,
-            enabled: false
-        });
-        this._resetHash();
-        this.fileInput.current.click();
-    }
-
     async _loadSessionFromServerAndNotify() {
         // fetch the session path from the hash
         const sessionURL = window.location.hash.slice(1);
@@ -228,6 +160,74 @@ export default class Loader extends React.Component {
     _resetHash() {
         // drop the session path in the hash
         window.location.hash = '';
+    }
+
+    _handleDragOver = (event) => {
+        event.preventDefault();
+    }
+
+    _handleDragEnter = () => {
+        // ignore drag and drop if the file dialog is open
+        if (!this.state.enabled) {
+            return;
+        }
+
+        // reset hash and errors
+        this._resetHash();
+        this.setState({
+            dragging: true,
+            error: null
+        });
+    }
+
+    _handleDragLeave = () => {
+        // ignore drag and drop if the file dialog is open
+        if (!this.state.enabled) {
+            return;
+        }
+
+        // skip if dragging over the button
+        if (event.relatedTarget === null) {
+            this.setState({dragging: false});
+        }
+    }
+
+    _handleDrop = (event) => {
+        event.preventDefault();
+
+        // ignore drag and drop if the file dialog is open
+        if (!this.state.enabled) {
+            return;
+        }
+
+        // ignore non-file objects dropped
+        const sessionFile = event.dataTransfer.files[0];
+        if (!sessionFile) {
+            this.setState({dragging: false});
+            return;
+        }
+
+        // try to load the dropped file
+        this._loadSessionFromClientAndNotify(sessionFile);
+    }
+
+    _handleChange = () => {
+        // re enable the dragging
+        this.setState({enabled: true});
+
+        // try to load the chosen file
+        const sessionFile = this.fileInput.current.files[0];
+        this._loadSessionFromClientAndNotify(sessionFile);
+    }
+
+    _handleClick = () => {
+        // show the file open dialog, resetting errors and hash, and disabling drag and drop
+        this.setState({
+            error: null,
+            enabled: false
+        });
+        this._resetHash();
+        this.fileInput.current.click();
     }
 
     _enableLoader = () => {
