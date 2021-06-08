@@ -45,19 +45,29 @@ program
     });
 
 program
-    .command('player')
-    .description('Start the web player.')
+    .command('play [<file>]')
+    .description('Start the web player optionally autoloading a session.')
     .option('--host <host>', 'Start the server on <host>', 'localhost')
     .option('--port <port>', 'Start the server on <port> instead of random', 0)
+    .option('-s, --serve-everything', 'Serve arbitrary session files')
     .option('-O, --no-open', 'Do not open the URL automatically')
-    .action((options) => {
+    .action((session, options) => {
         const open = require('open');
-        const player = require('../lib/player');
+        const path = require('path');
+        const play = require('../lib/play');
+
+        // find the absolute path and add it to the url
+        const sessionPath = session ? path.resolve(session) : null;
 
         // serve the player
-        const server = player(options).on('listening', () => {
+        const server = play(sessionPath, options).on('listening', () => {
             // compute the listening URL
-            const url = `http://${options.host}:${server.address().port}`;
+            let url = `http://${options.host}:${server.address().port}`;
+
+            // add the session if provided
+            if (sessionPath) {
+                url += `#${sessionPath}`;
+            }
 
             log.info(`Listening on ${url}`);
 

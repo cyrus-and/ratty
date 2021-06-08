@@ -23,5 +23,5 @@ ratty record
 The above generates a session file that can be loaded by the web player, which can be started with:
 
 ```
-ratty player
+ratty play session.ratty
 ```

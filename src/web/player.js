@@ -270,7 +270,8 @@ export default class Player extends React.Component {
     }
 
     _close = () => {
-        // reassign the location instead of reloading to show a more meaningful message in the browser
-        window.location = window.location.href;
+        // go back to the loader dropping the session file in the hash
+        const {protocol, host} = window.location;
+        window.location.href = `${protocol}//${host}`;
     }
 }

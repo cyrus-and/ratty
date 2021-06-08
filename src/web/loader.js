@@ -3,6 +3,7 @@ import Info from './info';
 import React from 'react';
 import Session from './session';
 import packageJson from '../../package.json';
+import path from 'path';
 import {Buffer} from 'buffer';
 import {gunzipSync} from 'zlib';
 
@@ -22,6 +23,9 @@ export default class Loader extends React.Component {
 
     componentDidMount() {
         window.addEventListener('focus', this._enableLoader);
+
+        // try to load the session from the server otherwise show the usual loader
+        this._loadSessionFromServerAndNotify();
     }
 
     componentWillUnmount() {
@@ -56,7 +60,7 @@ export default class Loader extends React.Component {
                     {
                         this.state.error &&
                         <div className="error">
-                            <i className="fa fa-exclamation-triangle"></i>Invalid session file
+                            <i className="fa fa-exclamation-triangle"></i>Cannot load session file
                         </div>
                     }
                 </div>
@@ -79,6 +83,8 @@ export default class Loader extends React.Component {
             return;
         }
 
+        // reset hash and errors
+        this._resetHash();
         this.setState({
             dragging: true,
             error: null
@@ -113,7 +119,7 @@ export default class Loader extends React.Component {
         }
 
         // try to load the dropped file
-        this._loadSessionAndNotify(sessionFile);
+        this._loadSessionFromClientAndNotify(sessionFile);
     }
 
     _handleChange = () => {
@@ -122,19 +128,52 @@ export default class Loader extends React.Component {
 
         // try to load the chosen file
         const sessionFile = this.fileInput.current.files[0];
-        this._loadSessionAndNotify(sessionFile);
+        this._loadSessionFromClientAndNotify(sessionFile);
     }
 
     _handleClick = () => {
-        // show the file open dialog, resetting errors and disabling drag and drop
+        // show the file open dialog, resetting errors and hash, and disabling drag and drop
         this.setState({
             error: null,
             enabled: false
         });
+        this._resetHash();
         this.fileInput.current.click();
     }
 
-    async _loadSessionAndNotify(file) {
+    async _loadSessionFromServerAndNotify() {
+        // fetch the session path from the hash
+        const sessionPath = window.location.hash.slice(1);
+        if (sessionPath.length === 0) {
+            return;
+        }
+
+        // try fetch the session data from the server
+        const response = await fetch(path.join('/session', sessionPath));
+        if (response.ok) {
+            // immediately show the spinner if there is a response from the server
+            this.setState({processing: true});
+
+            // fetch the name from the path and the content from the server
+            const name = path.basename(sessionPath).replace(/\.[^.]+$/, '');
+            const buffer = await response.arrayBuffer();
+            this._loadSessionAndNotify(name, buffer);
+        } else {
+            this.setState({error: response.status});
+        }
+    }
+
+    async _loadSessionFromClientAndNotify(file) {
+        // show the spinner
+        this.setState({processing: true});
+
+        // read the file name and content from the HTML file input field
+        const name = file.name.replace(/\.[^.]+$/, '');
+        const buffer = await this._readFile(file);
+        this._loadSessionAndNotify(name, buffer);
+    }
+
+    _loadSessionAndNotify(name, buffer) {
         // common error handling
         const handleError = (error) => {
             console.error(error);
@@ -149,14 +188,11 @@ export default class Loader extends React.Component {
         };
 
         try {
-            // show the activity
-            this.setState({
-                processing: true
-            });
+            // parse and decompress the array buffer
+            // XXX apparently a buffer is needed despite the doc says otherwise
+            const data = gunzipSync(Buffer.from(buffer)).toString();
 
-            // read the file and start loading the session
-            const data = await this._readFile(file);
-            const name = file.name.replace(/\.[^.]+$/, '');
+            // start loading the session
             const session = new Session(name, data);
 
             // pass the session upward as soon as at least one frame is loaded
@@ -172,19 +208,12 @@ export default class Loader extends React.Component {
     }
 
     _readFile(file) {
+        // fetch the content of a file from a input field
         return new Promise((fulfill, reject) => {
             const reader = new FileReader();
 
             reader.addEventListener('load', () => {
-                try {
-                    // apparently a buffer is needed despite the doc says otherwise...
-                    const buffer = Buffer.from(reader.result);
-
-                    // attempt to decompress the file
-                    fulfill(gunzipSync(buffer).toString());
-                } catch (error) {
-                    reject(error);
-                }
+                fulfill(reader.result);
             });
 
             reader.addEventListener('error', () => {
@@ -193,6 +222,11 @@ export default class Loader extends React.Component {
 
             reader.readAsArrayBuffer(file);
         });
+    }
+
+    _resetHash() {
+        // drop the session path in the hash
+        window.location.hash = '';
     }
 
     _enableLoader = () => {
