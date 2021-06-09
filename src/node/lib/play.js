@@ -16,7 +16,7 @@ function serve(response, filePath) {
 function player(sessionPath, options) {
     const server = http.createServer(({url}, response) => {
         // serve session files
-        const match = url.match(/^\/session(?<path>\/.*)$/)
+        const match = url.match(/^\/session(?<path>\/.*)$/);
         if (match) {
             // skip the /session prefix
             const incomingSessionPath = match.groups.path;
