@@ -44,11 +44,14 @@ function record(argv, options, callback) {
     let input = '';
     let output = '';
 
+    // open the file for writing
+    const fd = fs.openSync(options.output, 'w', 0o600);
+
     // create a compressed stream to write the data to
     const session = zlib.createGzip();
 
     // pipe it to the output file
-    session.pipe(fs.createWriteStream(options.output, {mode: 0o600}));
+    session.pipe(fs.createWriteStream(null, {fd}));
 
     // write the header
     emitEvent(['start', new Date().toISOString(), argv]);

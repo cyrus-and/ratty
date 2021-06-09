@@ -40,7 +40,7 @@ program
                 log.info(`Session saved to '${options.output}'`);
             });
         } catch (err) {
-            log.error(err.message);
+            log.error(`Cannot save session: ${err}`);
         }
     });
 
