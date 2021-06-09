@@ -80,19 +80,23 @@ export default class Loader extends React.Component {
             return;
         }
 
-        // try fetch the session data from the server
-        const url = /^https?:/.test(sessionURL) ? sessionURL : path.join('/session', sessionURL);
-        const response = await fetch(url);
-        if (response.ok) {
-            // immediately show the spinner if there is a response from the server
-            this.setState({processing: true});
+        try {
+            // try fetch the session data from the server
+            const url = /^https?:/.test(sessionURL) ? sessionURL : path.join('/session', sessionURL);
+            const response = await fetch(url);
+            if (response.ok) {
+                // immediately show the spinner if there is a response from the server
+                this.setState({processing: true});
 
-            // fetch the name from the path and the content from the server
-            const name = path.basename(sessionURL).replace(/\.[^.]+$/, '');
-            const buffer = await response.arrayBuffer();
-            this._loadSessionAndNotify(name, buffer);
-        } else {
-            this.setState({error: response.status});
+                // fetch the name from the path and the content from the server
+                const name = path.basename(sessionURL).replace(/\.[^.]+$/, '');
+                const buffer = await response.arrayBuffer();
+                this._loadSessionAndNotify(name, buffer);
+            } else {
+                this.setState({error: response.status});
+            }
+        } catch (err) {
+            this.setState({error: err});
         }
     }
 
