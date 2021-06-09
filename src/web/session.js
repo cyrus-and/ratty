@@ -91,7 +91,12 @@ export default class Session extends EventEmitter {
 
                     // write the record data to the terminal and read back the buffer
                     await new Promise((fulfill) => terminal.write(output, fulfill));
-                    const outputAnsi = serializeAddon.serialize();
+                    let outputAnsi = serializeAddon.serialize();
+
+                    // XXX manually add the cursor visibility codes since they do not get serialized
+                    // https://github.com/xtermjs/xterm.js/issues/3364
+                    const {isCursorHidden} = terminal._core._inputHandler._coreService;
+                    outputAnsi += isCursorHidden ? '\x1b[?25l' : '\x1b[?25h';
 
                     // accumulate the input in case this frame is skipped
                     cumulativeInput += input;
