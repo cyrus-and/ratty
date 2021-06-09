@@ -22,14 +22,15 @@ export default class Viewport extends React.PureComponent {
         this.terminal.open(this.root.current);
 
         // XXX apparently, in xterm.js the cursor appears upon the first focus
-        // event, so a first synthetic focus event is performed, then the focus
-        // is reset to body (in doing so it must have the tabindex attribute
-        // set, which will then be removed), additionally the terminal and its
-        // text area are made not focusable via the tab key
-        this.terminal.focus();
-        document.body.setAttribute('tabindex', '0');
-        document.body.focus();
-        document.body.removeAttribute('tabindex');
+        // event, so it is synthetically made visible
+        this.terminal._core._showCursor();
+
+        // XXX in xterm.js the unfocused terminals have a hollow block cursor,
+        // since the focus has no meanng here, this behavior is patched away
+        const cursorRenderLayer = this.terminal._core._renderService._renderer._renderLayers[3];
+        cursorRenderLayer._renderBlurCursor = cursorRenderLayer._renderBlockCursor;
+
+        // XXX additionally make the terminal and its text area not focusable by tabbing
         this.terminal.textarea.setAttribute('tabindex', '-1');
         this.terminal.element.setAttribute('tabindex', '-1');
 
