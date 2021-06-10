@@ -8,7 +8,7 @@ export default class Seek extends React.Component {
         this.state = {
             active: false
         };
-        this.trigger = React.createRef();
+        this._trigger = React.createRef();
     }
 
     render() {
@@ -16,7 +16,7 @@ export default class Seek extends React.Component {
 
         return (
             <div
-                ref={this.trigger}
+                ref={this._trigger}
                 className={`seek ${this.state.active ? 'active' : ''}`}
                 onMouseDown={this._handleMouseDown}>
                 <div style={{width: `${ratio * 100}%`}} />
@@ -30,7 +30,7 @@ export default class Seek extends React.Component {
         const move = (event) => {
             // compute the ratio according to the mouse move event
             this.setState({active: true});
-            const rect = this.trigger.current.getBoundingClientRect();
+            const rect = this._trigger.current.getBoundingClientRect();
             const ratio = Math.max(Math.min((event.clientX - rect.x) / rect.width, 1), 0);
             this.props.onSeek(ratio);
         };

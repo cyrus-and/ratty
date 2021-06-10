@@ -20,8 +20,8 @@ export default class Player extends React.Component {
             playing: false,
             showHelp: false
         };
-        this.searchWorker = null;
-        this.frameHandler = null;
+        this._searchWorker = null;
+        this._frameHandler = null;
     }
 
     componentDidMount() {
@@ -111,13 +111,13 @@ export default class Player extends React.Component {
         const {searchQuery, caseSensitivity} = this.state;
 
         // kill any currently running search workers
-        if (this.searchWorker) {
-            this.searchWorker.terminate();
+        if (this._searchWorker) {
+            this._searchWorker.terminate();
         }
 
         // deregister any previous frame handler
-        if (this.frameHandler) {
-            this.props.session.off('frame', this.frameHandler);
+        if (this._frameHandler) {
+            this.props.session.off('frame', this._frameHandler);
         }
 
         // clean the previous matches
@@ -129,10 +129,10 @@ export default class Player extends React.Component {
         }
 
         // create a separate worker to do the search job
-        this.searchWorker = new Worker('./searchWorker.js');
+        this._searchWorker = new Worker('./searchWorker.js');
 
         // submit the processed frames so far
-        this.searchWorker.postMessage({
+        this._searchWorker.postMessage({
             searchQuery,
             caseSensitivity,
             baseIndex: 0,
@@ -140,8 +140,8 @@ export default class Player extends React.Component {
         });
 
         // submit new frames as soon as they are processed (saving the frame handler)
-        this.props.session.on('frame', this.frameHandler = (frame, index) => {
-            this.searchWorker.postMessage({
+        this.props.session.on('frame', this._frameHandler = (frame, index) => {
+            this._searchWorker.postMessage({
                 searchQuery,
                 caseSensitivity,
                 baseIndex: index,
@@ -150,7 +150,7 @@ export default class Player extends React.Component {
         });
 
         // append the index of the next matching frame
-        this.searchWorker.addEventListener('message', (event) => {
+        this._searchWorker.addEventListener('message', (event) => {
             const index = event.data;
             this.setState((state) => {
                 return {

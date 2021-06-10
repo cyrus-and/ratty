@@ -7,7 +7,7 @@ import './viewport.scss';
 export default class Viewport extends React.PureComponent {
     constructor(props) {
         super(props);
-        this.root = React.createRef();
+        this._root = React.createRef();
     }
 
     componentDidMount() {
@@ -19,7 +19,7 @@ export default class Viewport extends React.PureComponent {
         this.terminal.attachCustomKeyEventHandler(() => false);
 
         // start the terminal
-        this.terminal.open(this.root.current);
+        this.terminal.open(this._root.current);
 
         // XXX apparently, in xterm.js the cursor appears upon the first focus
         // event, so it is synthetically made visible
@@ -51,7 +51,7 @@ export default class Viewport extends React.PureComponent {
 
         return (
             <div className="viewport">
-                <div ref={this.root} />
+                <div ref={this._root} />
             </div>
         );
     }

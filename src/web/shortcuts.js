@@ -1,15 +1,15 @@
 export default class Shortcuts {
     constructor() {
-        this.mapping = {};
+        this._mapping = {};
     }
 
     bind(mapping) {
-        Object.assign(this.mapping, mapping);
+        Object.assign(this._mapping, mapping);
     }
 
     unbind(triggers) {
         for (const trigger of triggers) {
-            delete this.mapping[trigger];
+            delete this._mapping[trigger];
         }
     }
 
@@ -24,7 +24,7 @@ export default class Shortcuts {
     getMapping() {
         // return the mapping as an array without the actual action
         const mapping = [];
-        for (const [trigger, [description, _]] of Object.entries(this.mapping)) {
+        for (const [trigger, [description, _]] of Object.entries(this._mapping)) {
             mapping.push([trigger, description]);
         }
         return mapping;
@@ -37,7 +37,7 @@ export default class Shortcuts {
         }
 
         // execute the associated handler, if any
-        const shortcut = this.mapping[event.key];
+        const shortcut = this._mapping[event.key];
         if (shortcut) {
             event.preventDefault();
             const [_, action] = shortcut;

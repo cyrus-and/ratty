@@ -6,15 +6,15 @@ import './search.scss';
 export default class Search extends React.Component {
     constructor(props) {
         super(props);
-        this.searchBox = React.createRef();
+        this._searchBox = React.createRef();
     }
 
     componentDidMount() {
         // register the shortcut
         window.shortcuts.bind({
             's': ['Focus the search box', () => {
-                this.searchBox.current.focus();
-                this.searchBox.current.select();
+                this._searchBox.current.focus();
+                this._searchBox.current.select();
             }]
         });
     }
@@ -56,7 +56,7 @@ export default class Search extends React.Component {
         return (
             <div className="search">
                 <input
-                    ref={this.searchBox}
+                    ref={this._searchBox}
                     placeholder="Search..."
                     spellCheck="false"
                     onChange={this._handleChange}

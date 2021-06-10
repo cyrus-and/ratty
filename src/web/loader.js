@@ -18,7 +18,7 @@ export default class Loader extends React.Component {
             error: null,
             enabled: true
         };
-        this.fileInput = React.createRef();
+        this._fileInput = React.createRef();
     }
 
     componentDidMount() {
@@ -65,7 +65,7 @@ export default class Loader extends React.Component {
                     }
                 </div>
                 <input
-                    ref={this.fileInput}
+                    ref={this._fileInput}
                     type="file"
                     accept={`.${packageJson.name}`}
                     onChange={this._handleChange} />
@@ -121,7 +121,7 @@ export default class Loader extends React.Component {
             });
 
             // allow to select the same file again on error
-            this.fileInput.current.value = '';
+            this._fileInput.current.value = '';
         };
 
         try {
@@ -220,7 +220,7 @@ export default class Loader extends React.Component {
         this.setState({enabled: true});
 
         // try to load the chosen file
-        const sessionFile = this.fileInput.current.files[0];
+        const sessionFile = this._fileInput.current.files[0];
         this._loadSessionFromClientAndNotify(sessionFile);
     }
 
@@ -231,7 +231,7 @@ export default class Loader extends React.Component {
             enabled: false
         });
         this._resetHash();
-        this.fileInput.current.click();
+        this._fileInput.current.click();
     }
 
     _enableLoader = () => {
