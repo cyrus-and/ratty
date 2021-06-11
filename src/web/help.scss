@@ -19,7 +19,7 @@
             border-spacing: 1em 0.25em;
 
             td:first-child {
-                font-family: monospace;
+                font-family: $monospace-font;
                 color: $accent-color;
                 text-align: right;
             }

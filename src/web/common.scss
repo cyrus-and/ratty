@@ -9,9 +9,52 @@ $controls-spacing: 0.5em;
 $hover-transition-time: 250ms;
 $scrollbar-width: 4px;
 $shadow-radius: 50px;
+$sans-serif-font: sans-serif;
+$monospace-font: monospace;
 
-/* reusable snippets */
+// reusable snippets
 
 @mixin shadow {
     box-shadow: 0 0 $shadow-radius 0 rgba($background-color, 0.5);
+}
+
+// common tags
+
+html {
+    font-size: 16px; // same value across browsers
+}
+
+body {
+    color: $foreground-color;
+    background: $backdrop-color;
+    font-family: $sans-serif-font;
+    margin: 0;
+}
+
+a {
+    transition: color $hover-transition-time;
+    outline: none;
+
+    &:link, &:visited {
+        color: $foreground-color;
+    }
+
+    &:hover, &:focus-visible {
+        color: $accent-color;
+    }
+}
+
+// scrollbars
+
+::-webkit-scrollbar {
+    width: $scrollbar-width;
+    height: $scrollbar-width;
+}
+
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner {
+    background: $background-color;
+}
+
+::-webkit-scrollbar-thumb {
+    background: $accent-color;
 }
