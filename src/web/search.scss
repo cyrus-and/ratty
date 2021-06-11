@@ -32,6 +32,7 @@
         &::placeholder {
             text-align: center;
             color: $foreground-color;
+            opacity: 1; // XXX fix for Firefox
         }
     }
 
