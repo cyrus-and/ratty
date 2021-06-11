@@ -15,7 +15,12 @@
     font-size: inherit;
     font-family: inherit;
 
-    &:hover, &:focus-visible {
+    &:hover {
+        color: $accent-color;
+    }
+
+    // XXX on a separate rule because Safari does not support it
+    &:focus-visible {
         color: $accent-color;
     }
 }
