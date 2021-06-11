@@ -271,7 +271,7 @@ export default class Player extends React.Component {
 
     _close = () => {
         // go back to the loader dropping the session file in the hash
-        const {protocol, host} = window.location;
-        window.location.href = `${protocol}//${host}`;
+        const {protocol, host, pathname} = window.location;
+        window.location.href = `${protocol}//${host}${pathname}`;
     }
 }
