@@ -43,104 +43,106 @@ export default class Controls extends React.Component {
 
         return (
             <div className="controls">
-                <Progress ratio={progress} />
-                <Button
-                    shortcut={{
-                        trigger: ' ',
-                        description: 'Play/pause the animation'
-                    }}
-                    icon={playingStatusIcon}
-                    onClick={player._changePlayingStatus} />
-                <Cycle
-                    shortcut={{
-                        trigger: 't',
-                        description: 'Cycle max frame duration'
-                    }}
-                    choices={[
-                        {label: 'REAL', value: Infinity},
-                        {label: 'SLOW', value: 1000},
-                        {label: 'FAIR', value: 500},
-                        {label: 'FAST', value: 100}
-                    ]}
-                    onChange={player._setMaxDelay} />
-                <Button
-                    shortcut={{
-                        trigger: 'g',
-                        description: 'Jump to the first frame'
-                    }}
-                    icon="fa-fast-backward"
-                    onClick={player._seekToBegin} />
-                <Button
-                    shortcut={{
-                        trigger: ',',
-                        description: 'Step one frame backward'
-                    }}
-                    icon="fa-step-backward"
-                    onClick={player._stepBackward} />
-                <Button
-                    shortcut={{
-                        trigger: '.',
-                        description: 'Step one frame forward'
-                    }}
-                    icon="fa-step-forward"
-                    onClick={player._stepForward} />
-                <Button
-                    shortcut={{
-                        trigger: 'G',
-                        description: 'Jump to the last frame'
-                    }}
-                    icon="fa-fast-forward"
-                    onClick={player._seekToEnd} />
-                <Timestamp
-                    frame={session.getFrames()[cursor]}
-                    maximum={session.getFrames()[totalFrames - 1].cumulativeDelay} />
-                <Seek
-                    cursor={cursor}
-                    totalFrames={totalFrames}
-                    onSeek={player._seek} />
-                <Timestamp frame={session.getFrames()[totalFrames - 1]} />
-                <Search
-                    player={player}
-                    cursor={cursor}
-                    matches={matches} />
-                <Cycle
-                    shortcut={{
-                        trigger: 'i',
-                        description: 'Toggle case sensitivity'
-                    }}
-                    choices={[
-                        {label: 'aa', value: false},
-                        {label: 'Aa', value: true}
-                    ]}
-                    onChange={player._setCaseSensitivity} />
-                <Button
-                    shortcut={{
-                        trigger: '-',
-                        description: 'Decrease font size'
-                    }}
-                    icon="fa-search-minus"
-                    onClick={player._decreaseFontSize} />
-                <Button
-                    shortcut={{
-                        trigger: '+',
-                        description: 'Increase font size'
-                    }}
-                    icon="fa-search-plus"
-                    onClick={player._increaseFontSize} />
-                <Button
-                    shortcut={{
-                        trigger: 'Escape',
-                        description: 'Toggle this help screen'
-                    }}
-                    icon="fa-question-circle"
-                    onClick={player._toggleHelp} />
-                <Button
-                    shortcut={{
-                        trigger: 'q',
-                        description: 'Close the player'
-                    }}
-                    icon="fa-times-circle"
-                    onClick={player._close} />
+                <div>
+                    <Progress ratio={progress} />
+                    <Button
+                        shortcut={{
+                            trigger: ' ',
+                            description: 'Play/pause the animation'
+                        }}
+                        icon={playingStatusIcon}
+                        onClick={player._changePlayingStatus} />
+                    <Cycle
+                        shortcut={{
+                            trigger: 't',
+                            description: 'Cycle max frame duration'
+                        }}
+                        choices={[
+                            {label: 'REAL', value: Infinity},
+                            {label: 'SLOW', value: 1000},
+                            {label: 'FAIR', value: 500},
+                            {label: 'FAST', value: 100}
+                        ]}
+                        onChange={player._setMaxDelay} />
+                    <Button
+                        shortcut={{
+                            trigger: 'g',
+                            description: 'Jump to the first frame'
+                        }}
+                        icon="fa-fast-backward"
+                        onClick={player._seekToBegin} />
+                    <Button
+                        shortcut={{
+                            trigger: ',',
+                            description: 'Step one frame backward'
+                        }}
+                        icon="fa-step-backward"
+                        onClick={player._stepBackward} />
+                    <Button
+                        shortcut={{
+                            trigger: '.',
+                            description: 'Step one frame forward'
+                        }}
+                        icon="fa-step-forward"
+                        onClick={player._stepForward} />
+                    <Button
+                        shortcut={{
+                            trigger: 'G',
+                            description: 'Jump to the last frame'
+                        }}
+                        icon="fa-fast-forward"
+                        onClick={player._seekToEnd} />
+                    <Timestamp
+                        frame={session.getFrames()[cursor]}
+                        maximum={session.getFrames()[totalFrames - 1].cumulativeDelay} />
+                    <Seek
+                        cursor={cursor}
+                        totalFrames={totalFrames}
+                        onSeek={player._seek} />
+                    <Timestamp frame={session.getFrames()[totalFrames - 1]} />
+                    <Search
+                        player={player}
+                        cursor={cursor}
+                        matches={matches} />
+                    <Cycle
+                        shortcut={{
+                            trigger: 'i',
+                            description: 'Toggle case sensitivity'
+                        }}
+                        choices={[
+                            {label: 'aa', value: false},
+                            {label: 'Aa', value: true}
+                        ]}
+                        onChange={player._setCaseSensitivity} />
+                    <Button
+                        shortcut={{
+                            trigger: '-',
+                            description: 'Decrease font size'
+                        }}
+                        icon="fa-search-minus"
+                        onClick={player._decreaseFontSize} />
+                    <Button
+                        shortcut={{
+                            trigger: '+',
+                            description: 'Increase font size'
+                        }}
+                        icon="fa-search-plus"
+                        onClick={player._increaseFontSize} />
+                    <Button
+                        shortcut={{
+                            trigger: 'Escape',
+                            description: 'Toggle this help screen'
+                        }}
+                        icon="fa-question-circle"
+                        onClick={player._toggleHelp} />
+                    <Button
+                        shortcut={{
+                            trigger: 'q',
+                            description: 'Close the player'
+                        }}
+                        icon="fa-times-circle"
+                        onClick={player._close} />
+                </div>
             </div>
         );
     }

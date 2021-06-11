@@ -1,19 +1,34 @@
 @import 'common.scss';
 
 .controls {
-    display: flex;
-    align-items: center;
-    padding: $controls-spacing;
-    background: $background-color;
-    color: $foreground-color;
-    min-width: 800px;
-    font-family: monospace;
+    // make sure to respect the height
+    flex: 0 0 auto;
 
-    & > * {
-        margin-right: $controls-spacing;
+    // allow to horizontally scroll the controls but hides the scrollbar
+    overflow-x: scroll;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        height: 0;
+    }
 
-        &:last-child {
-            margin-right: 0;
+    & > div {
+        display: flex;
+        box-sizing: border-box;
+        align-items: center;
+        padding: $controls-spacing;
+        background: $background-color;
+        color: $foreground-color;
+        min-width: 800px;
+        height: 100%;
+        font-family: monospace;
+
+        & > * {
+            margin-right: $controls-spacing;
+
+            &:last-child {
+                margin-right: 0;
+            }
         }
     }
 }
