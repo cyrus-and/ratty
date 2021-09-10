@@ -186,7 +186,7 @@ export default class Player extends React.Component {
         // setting this propery to whatever value forces the browser to show a
         // confirmation dialog when the user navigates away from or reload the
         // page
-        if (typeof __webpackDevServer === 'undefined') { // XXX this is defined in the command line
+        if (!WEBPACK_SERVE) { // XXX this is specified in webpack.config.js
             event.returnValue = true;
         }
     }
