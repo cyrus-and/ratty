@@ -1,4 +1,3 @@
-const HtmlWebpackPartialsPlugin = require('html-webpack-partials-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const package = require('./package.json');
 const webpack = require('webpack');
@@ -30,9 +29,7 @@ module.exports = (env) => {
                 },
                 {
                     test: /\.(svg|eot|woff|woff2|ttf)$/,
-                    use: [
-                        'file-loader'
-                    ]
+                    type: 'asset/resource'
                 }
             ]
         },
@@ -41,18 +38,17 @@ module.exports = (env) => {
                 'assert': require.resolve('assert/'),
                 'buffer': require.resolve('buffer'),
                 'stream': require.resolve('stream-browserify'),
-                'zlib': require.resolve('browserify-zlib')
+                'zlib': require.resolve('browserify-zlib'),
+                'path': require.resolve('path-browserify')
             }
         },
         plugins: [
             new HtmlWebpackPlugin({
                 title: package.name,
+                template: './src/web/root.html',
                 excludeChunks: [
                     'searchWorker'
                 ]
-            }),
-            new HtmlWebpackPartialsPlugin({
-                path: './src/web/root.html'
             }),
             new webpack.ProvidePlugin({
                 process: 'process/browser',
