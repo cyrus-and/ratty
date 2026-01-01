@@ -1,4 +1,4 @@
-@import 'common.scss';
+@use 'common.scss';
 
 .progress {
     transition: width 10ms, opacity 500ms;
@@ -6,7 +6,7 @@
     top: 0;
     left: 0;
     height: 1px;
-    background: $accent-color;
+    background: common.$accent-color;
 
     &.visible {
         opacity: 1;

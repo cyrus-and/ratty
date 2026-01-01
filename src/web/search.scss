@@ -1,4 +1,4 @@
-@import 'common.scss';
+@use 'common.scss';
 
 .search {
     transition: width 200ms;
@@ -6,18 +6,18 @@
     align-items: center;
     width: 12em;
     height: 100%;
-    border: 1px solid $foreground-color;
+    border: 1px solid common.$foreground-color;
     border-radius: 1em;
 
     &:focus-within {
         width: 20em;
-        border-color: $accent-color;
+        border-color: common.$accent-color;
     }
 
     input {
         flex-grow: 1;
         background: none;
-        color: $foreground-color;
+        color: common.$foreground-color;
         margin: 0;
         padding-left: 0.6em;
         font-size: inherit;
@@ -34,7 +34,7 @@
 
         &::placeholder {
             text-align: center;
-            color: $foreground-color;
+            color: common.$foreground-color;
             opacity: 1; // XXX fix for Firefox
         }
     }

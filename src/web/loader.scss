@@ -1,4 +1,4 @@
-@import 'common.scss';
+@use 'common.scss';
 
 @keyframes spin {
     from {
@@ -18,12 +18,12 @@
     vertical-align: middle;
 
     & > div {
-        @include shadow;
+        @include common.shadow;
 
         display: inline-block;
         position: relative;
-        background: $background-color;
-        color: $foreground-color;
+        background: common.$background-color;
+        color: common.$foreground-color;
 
         .hero {
             font-size: 4rem;
@@ -31,7 +31,7 @@
             margin-bottom: 3rem;
 
             .trigger.active {
-                color: $accent-color;
+                color: common.$accent-color;
             }
 
             .spinner {
@@ -43,8 +43,8 @@
             position: absolute;
             width: 100%;
             padding: 1rem 0;
-            color: $background-color;
-            background: $foreground-color;
+            color: common.$background-color;
+            background: common.$foreground-color;
             border-bottom-left-radius: 1rem;
             border-bottom-right-radius: 1rem;
 

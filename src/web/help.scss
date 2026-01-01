@@ -1,4 +1,4 @@
-@import 'common.scss';
+@use 'common.scss';
 
 .help {
     position: fixed;
@@ -6,8 +6,8 @@
     width: 100vw;
     height: 100vh;
     overflow: auto;
-    background: rgba($background-color, 0.9);
-    color: $foreground-color;
+    background: rgba(common.$background-color, 0.9);
+    color: common.$foreground-color;
 
     & > div {
         position: relative;
@@ -19,8 +19,8 @@
             border-spacing: 1em 0.25em;
 
             td:first-child {
-                font-family: $monospace-font;
-                color: $accent-color;
+                font-family: common.$monospace-font;
+                color: common.$accent-color;
                 text-align: right;
             }
         }

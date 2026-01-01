@@ -1,4 +1,4 @@
-@import 'common.scss';
+@use 'common.scss';
 
 .controls {
     font-size: 0.8rem;
@@ -18,15 +18,15 @@
         display: flex;
         box-sizing: border-box;
         align-items: center;
-        padding: $controls-spacing;
-        background: $background-color;
-        color: $foreground-color;
+        padding: common.$controls-spacing;
+        background: common.$background-color;
+        color: common.$foreground-color;
         min-width: 800px;
         height: 100%;
         font-family: monospace;
 
         & > * {
-            margin-right: $controls-spacing;
+            margin-right: common.$controls-spacing;
 
             &:last-child {
                 margin-right: 0;

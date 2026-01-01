@@ -1,9 +1,9 @@
-@import 'common.scss';
+@use 'common.scss';
 
 .button {
-    transition: color $hover-transition-time;
+    transition: color common.$hover-transition-time;
     background: none;
-    color: $foreground-color;
+    color: common.$foreground-color;
     border: none;
     outline: none;
     margin: 0;
@@ -16,11 +16,11 @@
     font-family: inherit;
 
     &:hover {
-        color: $accent-color;
+        color: common.$accent-color;
     }
 
     // XXX on a separate rule because Safari does not support it
     &:focus-visible {
-        color: $accent-color;
+        color: common.$accent-color;
     }
 }
